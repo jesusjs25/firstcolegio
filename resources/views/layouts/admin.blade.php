@@ -243,7 +243,7 @@
                                     <h5 class="mb-0 text-end">7.9</h5>
                                 </div>
                                 <div class="col-12">
-                                    <div id="chart-america"></div>
+                                    <div id="chart-america"></div> {{-- Aqui deberia estar el id del grado correspondiente, pero el id se mantiene finajo a la clave "indonesia" por alguna razon, revisar el codigo de dashboard.js para corregir esto. Lo mismo pasa con los id posteriores a este --}}
                                 </div>
                             </div>
                             <div class="row">
@@ -261,7 +261,7 @@
                                     <h5 class="mb-0 text-end">9.1</h5>
                                 </div>
                                 <div class="col-12">
-                                    <div id="chart-indonesia"></div> {{-- Aqui deberia estar el id del grado correspondiente, pero el id se mantiene finajo a la clave "indonesia" por alguna razon, revisar el codigo de dashboard.js para corregir esto. Lo mismo pasa con los id anteriores a este --}}
+                                    <div id="chart-indonesia"></div> 
                                 </div>
                             </div>
                         </div>
@@ -329,7 +329,7 @@
                 <div class="card-body py-4 px-4">
                     <div class="d-flex align-items-center">
                         <div class="avatar avatar-xl">
-                            <img src="./assets/compiled/jpg/1.jpg" alt="Face 1">
+                            <img src="./assets/compiled/jpg/gato.jpg" alt="Face 1">
                         </div>
                         <div class="ms-3 name">
                             <h5 class="font-bold">{{ auth()->user()->name }}</h5>
