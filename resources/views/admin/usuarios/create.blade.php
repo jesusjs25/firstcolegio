@@ -3,6 +3,15 @@
 @section('content')
 <div class="container py-4">
     <h2>Crear Nuevo Usuario</h2>
+    @if($errors->any())
+        <div class="alert alert-danger">
+            <ul class="mb-0">
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     <form action="{{ route('admin.usuarios.store') }}" method="POST" class="card p-4 shadow-sm">
         @csrf
         <div class="mb-3">

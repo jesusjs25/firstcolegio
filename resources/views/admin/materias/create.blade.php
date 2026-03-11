@@ -7,11 +7,20 @@
             <h6 class="m-0 font-weight-bold text-primary">Crear Nueva Materia</h6>
         </div>
         <div class="card-body">
+            @if($errors->any())
+                <div class="alert alert-danger">
+                    <ul class="mb-0">
+                        @foreach($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
             <form action="{{ route('admin.materias.store') }}" method="POST">
                 @csrf
                 
-                {{-- Campo: Nombre --}}
-                <div class="form-group mb-3">
+                {{-- Campo: Nombre --}}                <div class="form-group mb-3">
                     <label for="nombre">Nombre de la Materia</label>
                     <input type="text" name="nombre" class="form-control" placeholder="Ej. Programación I" required>
                 </div>
@@ -34,7 +43,7 @@
                 </div>
 
                 <div class="d-flex justify-content-end">
-                    <a href="{{ route('materias.index') }}" class="btn btn-secondary me-2">Cancelar</a>
+                    <a href="{{ route('admin.materias.index') }}" class="btn btn-secondary me-2">Cancelar</a>
                     <button type="submit" class="btn btn-success">Guardar Materia</button>
                 </div>
             </form>

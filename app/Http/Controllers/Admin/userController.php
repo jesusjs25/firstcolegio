@@ -27,16 +27,25 @@ class userController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request) {
-    \App\Models\User::create([
-        'name' => $request->name,
-        'email' => $request->email,
-        'password' => bcrypt($request->password),
-        'rol' => $request->rol,
-        'status' => 'activo'
-    ]);
-    return redirect()->route('admin.usuarios.index');
-}
+    public function store(Request $request)
+    {
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|string|min:6',
+            'rol' => 'required|in:admin,profe,estudiante',
+        ]);
+
+        \App\Models\User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => bcrypt($data['password']),
+            'rol' => $data['rol'],
+            'status' => 'activo',
+        ]);
+
+        return redirect()->route('admin.usuarios.index')->with('success', 'Usuario creado correctamente.');
+    }
 
     /**
      * Display the specified resource.
@@ -67,6 +76,9 @@ class userController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $user = \App\Models\User::findOrFail($id);
+        $user->delete();
+
+        return redirect()->route('admin.usuarios.index')->with('success', 'Usuario eliminado correctamente.');
     }
 }
