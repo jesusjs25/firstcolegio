@@ -7,6 +7,10 @@
         <a href="{{ route('admin.usuarios.create') }}" class="btn btn-primary">Crear Nuevo Usuario</a>
     </div>
 
+    @if(session('success'))
+        <div class="alert alert-success">{{ session('success') }}</div>
+    @endif
+
     <div class="card shadow">
         <div class="card-body">
             <table class="table">
@@ -20,16 +24,26 @@
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td>Angelito</td>
-            <td>angelito@gmail.com</td>
-            <td>Administrador</td>
-            <td>Activo</td>
-            <td>
-                <button class="btn btn-warning">Editar</button>
-                <button class="btn btn-danger">Desactivar</button>
-            </td>
-        </tr>
+        @forelse($usuarios as $usuario)
+            <tr>
+                <td>{{ $usuario->name }}</td>
+                <td>{{ $usuario->email }}</td>
+                <td>{{ ucfirst($usuario->rol) }}</td>
+                <td>{{ ucfirst($usuario->status ?? 'activo') }}</td>
+                <td>
+                    <a href="#" class="btn btn-sm btn-warning">Editar</a>
+                    <form action="{{ route('admin.usuarios.destroy', $usuario->id) }}" method="POST" class="d-inline">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+        @empty
+            <tr>
+                <td colspan="5" class="text-center">No hay usuarios registrados.</td>
+            </tr>
+        @endforelse
     </tbody>
 </table>
         </div>

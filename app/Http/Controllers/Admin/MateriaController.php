@@ -27,9 +27,16 @@ class MateriaController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request) {
-    \App\Models\Materia::create($request->all());
-    return redirect()->route('admin.materias.index');
+    public function store(Request $request)
+    {
+        $data = $request->validate([
+            'nombre' => 'required|string|max:255',
+            'descripcion' => 'nullable|string',
+        ]);
+
+        \App\Models\Materia::create($data);
+
+        return redirect()->route('admin.materias.index')->with('success', 'Materia creada correctamente.');
     }
 
     /**
@@ -61,6 +68,9 @@ class MateriaController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $materia = \App\Models\Materia::findOrFail($id);
+        $materia->delete();
+
+        return redirect()->route('admin.materias.index')->with('success', 'Materia eliminada correctamente.');
     }
 }
