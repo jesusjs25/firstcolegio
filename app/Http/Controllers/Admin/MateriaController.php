@@ -12,8 +12,8 @@ class MateriaController extends Controller
      */
     public function index()
     {
-        return view('admin.materias.index');
-        //
+        $materias = \App\Models\Materia::all();
+        return view('admin.materias.index', compact('materias'));
     }
 
     /**
@@ -21,7 +21,7 @@ class MateriaController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.materias.create');
     }
 
     /**
@@ -29,7 +29,7 @@ class MateriaController extends Controller
      */
     public function store(Request $request) {
     \App\Models\Materia::create($request->all());
-    return redirect()->route('materias.index');
+    return redirect()->route('admin.materias.index');
     }
 
     /**

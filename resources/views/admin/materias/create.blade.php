@@ -7,7 +7,7 @@
             <h6 class="m-0 font-weight-bold text-primary">Crear Nueva Materia</h6>
         </div>
         <div class="card-body">
-            <form action="{{ route('materias.store') }}" method="POST">
+            <form action="{{ route('admin.materias.store') }}" method="POST">
                 @csrf
                 
                 {{-- Campo: Nombre --}}

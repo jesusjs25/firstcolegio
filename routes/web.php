@@ -5,11 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\userController;
 use App\Http\Controllers\Admin\MateriaController;
 
-Route::resource('admin/materias',
- MateriaController::class);
- 
-Route::resource('admin/usuarios',
- userController::class);
+Route::resource('admin/materias', MateriaController::class)->names('admin.materias');
+Route::resource('admin/usuarios', userController::class)->names('admin.usuarios');
 
 Route::get('/', function () {
     return view('welcome');

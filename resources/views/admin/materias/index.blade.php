@@ -4,7 +4,7 @@
 <div class="container py-4">
     <div class="d-flex justify-content-between mb-4">
         <h2>Gestión de Materias</h2>
-        <button class="btn btn-primary">Nueva Materia</button>
+        <a href="{{ route('admin.materias.create') }}" class="btn btn-primary">Nueva Materia</a>
     </div>
     <table class="table table-bordered">
         <thead>
