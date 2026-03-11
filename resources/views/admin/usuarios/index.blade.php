@@ -4,7 +4,7 @@
 <div class="container-fluid py-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2>Gestión de Usuarios</h2>
-        <button class="btn btn-primary">Crear Nuevo Usuario</button>
+        <a href="{{ route('admin.usuarios.create') }}" class="btn btn-primary">Crear Nuevo Usuario</a>
     </div>
 
     <div class="card shadow">

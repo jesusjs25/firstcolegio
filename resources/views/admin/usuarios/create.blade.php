@@ -3,7 +3,7 @@
 @section('content')
 <div class="container py-4">
     <h2>Crear Nuevo Usuario</h2>
-    <form action="{{ route('usuarios.store') }}" method="POST" class="card p-4 shadow-sm">
+    <form action="{{ route('admin.usuarios.store') }}" method="POST" class="card p-4 shadow-sm">
         @csrf
         <div class="mb-3">
             <label>Nombre</label>

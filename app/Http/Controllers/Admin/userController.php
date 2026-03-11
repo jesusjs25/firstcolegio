@@ -12,8 +12,8 @@ class userController extends Controller
      */
     public function index()
     {
-        return view('admin.usuarios.index');
-        //
+        $usuarios = \App\Models\User::all();
+        return view('admin.usuarios.index', compact('usuarios'));
     }
 
     /**
@@ -21,7 +21,7 @@ class userController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.usuarios.create');
     }
 
     /**
@@ -35,7 +35,7 @@ class userController extends Controller
         'rol' => $request->rol,
         'status' => 'activo'
     ]);
-    return redirect()->route('usuarios.index');
+    return redirect()->route('admin.usuarios.index');
 }
 
     /**
