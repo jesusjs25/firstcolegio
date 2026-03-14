@@ -70,12 +70,31 @@
             
             <li
                 class="sidebar-item active ">
-                <a href="{{ url('/admin') }}" class='sidebar-link'>
+                <a href="{{ route('admin.index') }}" class='sidebar-link'>
                     <i class="bi bi-house-door-fill"></i>
                     <span>Inicio</span>
                 </a>
                 
             </li>
+
+            <li
+                class="sidebar-item ">
+                <a href="{{ route('materias.index') }}" class='sidebar-link'>
+                    <i class="bi bi-book-half"></i>
+                    <span>Materias</span>
+                </a>
+                
+            </li>
+
+            <li
+                class="sidebar-item ">
+                <a href="{{ route('usuarios.index') }}" class='sidebar-link'>
+                    <i class="bi bi-people-fill"></i>
+                    <span>Usuarios</span>
+                </a>
+                
+            </li>
+            
             
             <li class="sidebar-title">Ajustes</li>
 
