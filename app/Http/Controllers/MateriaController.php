@@ -1,8 +1,10 @@
 <?php
-
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Materia;
+use App\Models\teacher;
+use App\Models\student;
 use Illuminate\Http\Request;
 class MateriaController extends Controller
 {
@@ -11,25 +13,40 @@ class MateriaController extends Controller
 public function index()
 {
     $materias = Materia::all();
-return view('admin.materias.index', compact('materias'));
+    return view('admin.materias.index', compact('materias'));
 }
 
 public function create()
 {
-    return view('admin.materias.create');
-}  
+    // Buscamos usuarios que tengan asignado el nombre del rol tal cual sale en tu BD
+    $profesores = User::role('Profesor')->get();
+    $estudiantes = User::role('Alumno')->get();
+
+    return view('admin.materias.create', compact('profesores', 'estudiantes'));
+}
 
 public function store(Request $request)
 {
     $request->validate([
         'name' => 'required|string|max:255',
-        'code' => 'required|string|max:50|unique:materias',
+        'description' => 'required|string',
+        'teacher_id' => 'required|exists:users,id',
+        'estudiantes' => 'nullable|array',
+        'estudiantes.*' => 'exists:users,id',
     ]);
 
-    Materia::create($request->all());
+    $materia = Materia::create([
+        'nombre' => $request->name,
+        'descripcion' => $request->description,
+        'teachers_id' => $request->teacher_id,
+    ]);
+
+    if ($request->has('estudiantes')) {
+        $materia->estudiantes()->sync($request->estudiantes);
+    }
 
     return redirect()->route('materias.index')->with('success', 'Materia creada exitosamente.');
-}  
+}
 
 public function show(Materia $materia)
 {
@@ -45,10 +62,21 @@ public function update(Request $request, Materia $materia)
 {
     $request->validate([
         'name' => 'required|string|max:255',
-        'code' => 'required|string|max:50|unique:materias,code,' . $materia->id,
+        'description' => 'nullable|string',
+        'teacher_id' => 'required|exists:users,id',
+        'estudiantes' => 'array',
+        'estudiantes.*' => 'exists:users,id',
     ]);
 
-    $materia->update($request->all());
+    $materia->update([
+        'nombre' => $request->name,
+        'descripcion' => $request->description,
+        'teachers_id' => $request->teacher_id,
+    ]);
+
+    if ($request->has('estudiantes')) {
+        $materia->estudiantes()->sync($request->estudiantes);
+    }
 
     return redirect()->route('materias.index')->with('success', 'Materia actualizada exitosamente.');
 }

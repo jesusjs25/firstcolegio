@@ -33,9 +33,15 @@ class UsuarioController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
+            'role' => 'required|in:Admin,Profesor,Alumno',
         ]);
 
-        User::create($request->all());
+        $usuario = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+        ]);
+        $usuario->assignRole($request->role);
 
         return redirect()->route('usuarios.index')->with('success', 'Usuario creado exitosamente.');
     }
@@ -54,7 +60,16 @@ class UsuarioController extends Controller
     public function update(Request $request, $id)
     {
         $usuario = User::findOrFail($id);
-        $usuario->update($request->all());
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,' . $usuario->id,
+            'role' => 'required|in:Admin,Profesor,Alumno',
+        ]);
+        $usuario->update([
+            'name' => $request->name,
+            'email' => $request->email,
+        ]);
+        $usuario->syncRoles([$request->role]);
         return redirect()->route('usuarios.index')->with('success', 'Usuario actualizado exitosamente.');
     }
     public function destroy(string $id)
