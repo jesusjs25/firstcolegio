@@ -1,0 +1,1 @@
+<x-fluentui-people-community-28 class="w-4 h-4 text-white"/>
