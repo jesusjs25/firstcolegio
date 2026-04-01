@@ -18,13 +18,15 @@ public function index()
 
 public function create()
 {
-    // Buscamos usuarios que tengan asignado el nombre del rol tal cual sale en tu BD
+    // Buscamos usuarios que tengan asignado el nombre del rol tal cual sale en la BD
     $profesores = User::role('Profesor')->get();
     $estudiantes = User::role('Alumno')->get();
 
     return view('admin.materias.create', compact('profesores', 'estudiantes'));
 }
 
+
+// Método para almacenar una nueva materia
 public function store(Request $request)
 {
     $request->validate([
@@ -48,16 +50,22 @@ public function store(Request $request)
     return redirect()->route('materias.index')->with('success', 'Materia creada exitosamente.');
 }
 
+
+// Método para mostrar los detalles de una materia específica
 public function show(Materia $materia)
 {
     return view('materias.show', compact('materia'));
 }
 
+
+// Método para mostrar el formulario de edición de una materia específica
 public function edit(Materia $materia)
 {
     return view('materias.edit', compact('materia'));
 }
 
+
+// Método para actualizar una materia específica
 public function update(Request $request, Materia $materia)
 {
     $request->validate([
@@ -81,6 +89,8 @@ public function update(Request $request, Materia $materia)
     return redirect()->route('materias.index')->with('success', 'Materia actualizada exitosamente.');
 }
 
+
+// Método para eliminar una materia específica
 public function destroy(Materia $materia)
 {
     $materia->delete();

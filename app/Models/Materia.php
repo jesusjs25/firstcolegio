@@ -8,6 +8,8 @@ class Materia extends Model
 {
     use HasFactory;
 
+    /* Especificamos el nombre de las columnas en la base de datos
+      que se pueden asignar masivamente (mass assignment)*/
     protected $fillable = [
         'nombre',
         'descripcion',
