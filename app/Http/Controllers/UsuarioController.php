@@ -3,62 +3,90 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class UsuarioController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Despliega una lista de usuarios.
      */
     public function index()
     {
-        $usuario = User::all();
+        $usuarios = User::all();
+        return view('admin.usuarios.index', compact('usuarios'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Mostrar el formulario para crear un nuevo usuario.
      */
     public function create()
     {
-        //
+        return view('admin.usuarios.create');
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Almacenar el usuario nuevo.
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
+            'role' => 'required|in:Admin,Profesor,Alumno',
+        ]);
+
+        $usuario = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+            'role' => $request->role,
+        ]);
+        $usuario->assignRole($request->role);
+
+        return redirect()->route('usuarios.index')->with('success', 'Usuario creado exitosamente.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    // Mostrar los detalles de un usuario específico
+
+    public function show($id)
     {
-        //
+        $usuario = User::findOrFail($id);
+        return view('admin.usuarios.show', compact('usuario'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    // Mostrar el formulario de edición para un usuario específico
+
+    public function edit($id)
     {
-        //
+        $usuario = User::findOrFail($id);
+        return view('admin.usuarios.edit', compact('usuario'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    // Método para actualizar un usuario específico
+    public function update(Request $request, $id)
     {
-        //
+        $usuario = User::findOrFail($id);
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,' . $usuario->id,
+            'role' => 'required|in:Admin,Profesor,Alumno',
+        ]);
+        $usuario->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'role' => $request->role,
+        ]);
+        $usuario->syncRoles([$request->role]);
+        return redirect()->route('usuarios.index')->with('success', 'Usuario actualizado exitosamente.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    // Método para eliminar un usuario específico
     public function destroy(string $id)
     {
-        //
+        $usuario = User::findOrFail($id);
+        $usuario->delete();
+
+        return redirect()->route('usuarios.index')->with('success', 'Usuario eliminado exitosamente.');
     }
 }
