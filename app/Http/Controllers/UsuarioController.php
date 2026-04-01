@@ -8,7 +8,7 @@ use App\Models\User;
 class UsuarioController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Despliega una lista de usuarios.
      */
     public function index()
     {
@@ -17,7 +17,7 @@ class UsuarioController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Mostrar el formulario para crear un nuevo usuario.
      */
     public function create()
     {
@@ -25,7 +25,7 @@ class UsuarioController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Almacenar el usuario nuevo.
      */
     public function store(Request $request)
     {
@@ -40,11 +40,14 @@ class UsuarioController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
+            'role' => $request->role,
         ]);
         $usuario->assignRole($request->role);
 
         return redirect()->route('usuarios.index')->with('success', 'Usuario creado exitosamente.');
     }
+
+    // Mostrar los detalles de un usuario específico
 
     public function show($id)
     {
@@ -52,11 +55,15 @@ class UsuarioController extends Controller
         return view('admin.usuarios.show', compact('usuario'));
     }
 
+    // Mostrar el formulario de edición para un usuario específico
+
     public function edit($id)
     {
         $usuario = User::findOrFail($id);
         return view('admin.usuarios.edit', compact('usuario'));
     }
+
+    // Método para actualizar un usuario específico
     public function update(Request $request, $id)
     {
         $usuario = User::findOrFail($id);
@@ -68,10 +75,13 @@ class UsuarioController extends Controller
         $usuario->update([
             'name' => $request->name,
             'email' => $request->email,
+            'role' => $request->role,
         ]);
         $usuario->syncRoles([$request->role]);
         return redirect()->route('usuarios.index')->with('success', 'Usuario actualizado exitosamente.');
     }
+
+    // Método para eliminar un usuario específico
     public function destroy(string $id)
     {
         $usuario = User::findOrFail($id);

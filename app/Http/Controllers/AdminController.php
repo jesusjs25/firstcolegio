@@ -8,9 +8,9 @@ use App\Models\Course;
 use App\Models\Subject;
 use Illuminate\Http\Request;
 
-class AdminController extends Controller
+class AdminController extends Controller                    // Controlador para la sección de administración
 {
-    public function admin()
+    public function admin()                         
     {
         $totalStudents = Student::count();
         $totalTeachers = Teacher::count();

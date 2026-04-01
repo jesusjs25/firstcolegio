@@ -9,9 +9,10 @@ class Course extends Model
 {
     use HasFactory;
 
-    /**
-     * The attributes that are mass assignable.
-     *
+    /*
+     *Especificamos el nombre de las columnas en la base de datos
+      que se pueden asignar masivamente (mass assignment)
+
      * @var array<int, string>
      */
     protected $fillable = [
@@ -21,7 +22,7 @@ class Course extends Model
     ];
 
     /**
-     * The attributes that should be hidden for serialization.
+     * Los atributos que deben ocultarse durante la serialización.
      *
      * @var array<int, string>
      */
@@ -31,7 +32,7 @@ class Course extends Model
     ];
 
     /**
-     * The attributes that should be cast.
+     * Los atributos que deben ser convertidos.
      *
      * @var array<string, string>
      */

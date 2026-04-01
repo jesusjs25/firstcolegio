@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
         ], [
             'name' => 'yo',
             'password' => bcrypt('12345678'),
+            'role' => 'Admin',
         ]);
         $userAdmin->assignRole($roleAdmin);
 
@@ -35,6 +36,7 @@ class DatabaseSeeder extends Seeder
         ], [
             'name' => 'Juan',
             'password' => bcrypt('12345678'),
+            'role' => 'Profesor',
         ]);
         $userProfesor->assignRole($roleProfesor);
 
@@ -44,14 +46,15 @@ class DatabaseSeeder extends Seeder
         ], [
             'name' => 'Angelo',
             'password' => bcrypt('12345678'),
+            'role' => 'Alumno',
         ]);
         
         $userAlumno->assignRole($roleAlumno);
         // User::factory(10)->create();
 
-        User::factory()->create([
+        /*User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
-        ]);
+        ]);*/
     }
 }
