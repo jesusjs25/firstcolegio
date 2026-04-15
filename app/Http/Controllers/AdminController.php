@@ -8,15 +8,9 @@ use App\Models\Course;
 use App\Models\Subject;
 use Illuminate\Http\Request;
 
-/**
-    * Gestion de funciones administrativas
-    ** Este controlador maneja las funciones administrativas del sistema, como la visualización de estadísticas y la gestión de usuarios.
-    *  Se encarga de recopilar datos relevantes para el administrador y presentarlos en la vista correspondiente.
-*/
-
-class AdminController extends Controller
+class AdminController extends Controller 
 {
-    public function admin()
+    public function admin()                         
     {
     // Estadísticas generales de estudiantes, profesores, cursos y materias
         $totalStudents = Student::count();
