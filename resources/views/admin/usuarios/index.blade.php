@@ -39,7 +39,7 @@
 	@endif
 
 	<div class="mb-3">
-		<a href="{{ route('usuarios.create') }}" class="btn btn-primary">Crear Usuario</a>
+		<a href="{{ route('admin.usuarios.create') }}" class="btn btn-primary">Crear Usuario</a>
 	</div>
 
 	<div class="card">
@@ -61,8 +61,8 @@
 							<td>{{ $usuario->email }}</td>
 							<td>{{ $usuario->getRoleNames()->implode(', ') }}</td>
 							<td>
-								<a href="{{ route('usuarios.edit', $usuario) }}" class="btn btn-sm btn-warning">Editar</a>
-								<form action="{{ route('usuarios.destroy', $usuario) }}" method="POST" style="display:inline-block;">
+								<a href="{{ route('admin.usuarios.edit', $usuario) }}" class="btn btn-sm btn-warning">Editar</a>
+								<form action="{{ route('admin.usuarios.destroy', $usuario) }}" method="POST" style="display:inline-block;">
 									@csrf
 									@method('DELETE')
 									<button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Seguro que deseas eliminar este usuario?')">Eliminar</button>

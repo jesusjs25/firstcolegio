@@ -13,7 +13,7 @@
 			</ul>
 		</div>
 	@endif
-	<form action="{{ route('usuarios.store') }}" method="POST">
+	<form action="{{ route('admin.usuarios.store') }}" method="POST">
 		@csrf
 		<div class="mb-3">
 			<label for="name" class="form-label">Nombre</label>
@@ -41,7 +41,7 @@
 			</select>
 		</div>
 		<button type="submit" class="btn btn-success">Registrar</button>
-		<a href="{{ route('usuarios.index') }}" class="btn btn-secondary">Cancelar</a>
+		<a href="{{ route('admin.usuarios.index') }}" class="btn btn-secondary">Cancelar</a>
 	</form>
 </div>
 @endsection

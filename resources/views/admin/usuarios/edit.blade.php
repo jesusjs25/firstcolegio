@@ -12,7 +12,7 @@
             </ul>
         </div>
     @endif
-    <form action="{{ route('usuarios.update', $usuario) }}" method="POST">
+    <form action="{{ route('admin.usuarios.update', $usuario) }}" method="POST">
         @csrf
         @method('PATCH')
         <div class="mb-3">
@@ -33,7 +33,7 @@
             </select>
         </div>
         <button type="submit" class="btn btn-primary">Actualizar</button>
-        <a href="{{ route('usuarios.index') }}" class="btn btn-secondary">Cancelar</a>
+        <a href="{{ route('admin.usuarios.index') }}" class="btn btn-secondary">Cancelar</a>
     </form>
 </div>
 @endsection

@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MateriaController;
 use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Http\Request;
 
 // --- RUTAS PÚBLICAS ---
@@ -43,9 +44,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // ==========================================
     Route::middleware(['role:Admin'])->prefix('admin')->group(function () {
         
-        Route::get('/', function () {                                           // admin/index
-            return view('admin.index');
-        })->name('admin.index');
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.index');
 
         Route::resource('materias', MateriaController::class);                  // admin/materias
         Route::resource('usuarios', UsuarioController::class);                  // admin/usuarios
@@ -82,7 +81,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
             return view('alumno.index'); 
         })->name('alumno.index');
     });
-
+        // Esto crea index, create, store, show, edit, update y destroy de un solo golpe
+        Route::resource('admin/usuarios', UsuarioController::class)->names('admin.usuarios');
+        Route::resource('admin/materias', MateriaController::class)->names('admin.materias');
 });
 
 require __DIR__.'/auth.php';

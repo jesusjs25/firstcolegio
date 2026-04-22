@@ -6,9 +6,10 @@ use App\Models\Materia;
 use App\Models\teacher;
 use App\Models\student;
 use Illuminate\Http\Request;
+use App\Traits\ActivityLogger;
 class MateriaController extends Controller
 {
-
+    use ActivityLogger; // Incluimos el trait para registrar actividades
 
 public function index()
 {
@@ -47,7 +48,9 @@ public function store(Request $request)
         $materia->estudiantes()->sync($request->estudiantes);
     }
 
-    return redirect()->route('materias.index')->with('success', 'Materia creada exitosamente.');
+    $this->logActivity('creó', 'Materia', "Materia {$materia->nombre} creada");
+
+    return redirect()->route('admin.materias.index')->with('success', 'Materia creada exitosamente.');
 }
 
 
@@ -61,7 +64,7 @@ public function show(Materia $materia)
 // Método para mostrar el formulario de edición de una materia específica
 public function edit(Materia $materia)
 {
-    return view('materias.edit', compact('materia'));
+    return view('admin.materias.edit', compact('materia'));
 }
 
 
@@ -86,6 +89,8 @@ public function update(Request $request, Materia $materia)
         $materia->estudiantes()->sync($request->estudiantes);
     }
 
+    $this->logActivity('editó', 'Materia', "Materia {$materia->nombre} editada");
+
     return redirect()->route('materias.index')->with('success', 'Materia actualizada exitosamente.');
 }
 
@@ -93,8 +98,10 @@ public function update(Request $request, Materia $materia)
 // Método para eliminar una materia específica
 public function destroy(Materia $materia)
 {
+    $this->logActivity('eliminó', 'Materia', "Materia {$materia->nombre} eliminada");
+
     $materia->delete();
 
-    return redirect()->route('materias.index')->with('success', 'Materia eliminada exitosamente.');
+    return redirect()->route('admin.materias.index')->with('success', 'Materia eliminada exitosamente.');
 }
 }

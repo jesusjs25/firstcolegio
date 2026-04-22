@@ -26,7 +26,7 @@
     <div class="sidebar-header position-relative">
         <div class="d-flex justify-content-between align-items-center">
             <div class="logo">
-                <a href="{{ url('/admin') }}">
+                <a href="{{ url('/admin/dashboard') }}">
                     {{-- <img src="{{ asset('assets/compiled/svg/logo.svg') }}" alt="Logo" srcset=""> --}}
                     First Colegio
                 </a>
@@ -79,7 +79,7 @@
 
             <li
                 class="sidebar-item ">
-                <a href="{{ route('materias.index') }}" class='sidebar-link'>
+                <a href="{{ route('admin.materias.index') }}" class='sidebar-link'>
                     <i class="bi bi-book-half"></i>
                     <span>Materias</span>
                 </a>
@@ -88,7 +88,7 @@
 
             <li
                 class="sidebar-item active">
-                <a href="{{ route('usuarios.index') }}" class='sidebar-link'>
+                <a href="{{ route('admin.usuarios.index') }}" class='sidebar-link'>
                     <i class="bi bi-people-fill"></i>
                     <span>Usuarios</span>
                 </a>
@@ -142,7 +142,7 @@
             <div class="col-12 col-md-6 order-md-2 order-first">
                 <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="{{ route('usuarios.index') }}">Usuarios</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.usuarios.index') }}">Usuarios</a></li>
                         <li class="breadcrumb-item active" aria-current="page">DataTable</li>
                     </ol>
                 </nav>

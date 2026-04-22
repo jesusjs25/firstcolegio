@@ -8,7 +8,7 @@
 		<div class="alert alert-success">{{ session('success') }}</div>
 	@endif
 	<div class="mb-3">
-		<a href="{{ route('materias.create') }}" class="btn btn-primary">Crear Materia</a>
+		<a href="{{ route('admin.materias.create') }}" class="btn btn-primary">Crear Materia</a>
 	</div>
 	<div class="card">
 		<div class="card-header">Lista de Materias</div>
@@ -31,8 +31,8 @@
 							<td>{{ $materia->profesor ? $materia->profesor->name : 'Sin asignar' }}</td>
 							<td>{{ $materia->estudiantes->count() }}</td>
 							<td>
-								<a href="{{ route('materias.edit', $materia) }}" class="btn btn-sm btn-warning">Editar</a>
-								<form action="{{ route('materias.destroy', $materia) }}" method="POST" style="display:inline-block;">
+								<a href="{{ route('admin.materias.edit', $materia) }}" class="btn btn-sm btn-warning">Editar</a>
+								<form action="{{ route('admin.materias.destroy', $materia) }}" method="POST" style="display:inline-block;">
 									@csrf
 									@method('DELETE')
 									<button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Seguro que deseas eliminar esta materia?')">Eliminar</button>
