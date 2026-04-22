@@ -12,7 +12,7 @@
             </ul>
         </div>
     @endif
-    <form action="{{ route('materias.update', $materia) }}" method="POST">
+    <form action="{{ route('admin.materias.update', $materia) }}" method="POST">
         @csrf
         @method('PATCH')
         <div class="mb-3">
@@ -24,7 +24,7 @@
             <input type="text" class="form-control" id="description" name="description" value="{{ old('description', $materia->description) }}" required>
         </div>
         <button type="submit" class="btn btn-primary">Actualizar</button>
-        <a href="{{ route('materias.index') }}" class="btn btn-secondary">Cancelar</a>
+        <a href="{{ route('admin.materias.index') }}" class="btn btn-secondary">Cancelar</a>
     </form>
 </div>
 @endsection

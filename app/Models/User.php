@@ -15,7 +15,7 @@ class User extends Authenticatable
 
     /*
      *Especificamos el nombre de las columnas en la base de datos
-      que se pueden asignar masivamente (mass assignment)
+    que se pueden asignar masivamente (mass assignment)
 
      * @var array<int, string>
      */

@@ -9,7 +9,7 @@
             <div class="card border-left-primary shadow h-100 py-2">
                 <div class="card-body d-flex flex-column">
                     <h6 class="text-xs font-weight-bold text-primary text-uppercase mb-1">Estudiantes</h6>
-                    <p class="h5 mb-2 font-weight-bold text-gray-800">0</p>
+                    <p class="h5 mb-2 font-weight-bold text-gray-800">{{ $totalEstudiantes }}</p>
                     <a href="{{ route('admin.usuarios.index') }}" class="btn btn-primary btn-sm mt-auto">Ver Usuarios</a>
                 </div>
             </div>
@@ -19,7 +19,7 @@
             <div class="card border-left-success shadow h-100 py-2">
                 <div class="card-body d-flex flex-column">
                     <h6 class="text-xs font-weight-bold text-success text-uppercase mb-1">Materias</h6>
-                    <p class="h5 mb-2 font-weight-bold text-gray-800">0</p>
+                    <p class="h5 mb-2 font-weight-bold text-gray-800">{{ $totalMaterias }}</p>
                     <a href="{{ route('admin.materias.index') }}" class="btn btn-success btn-sm mt-auto">Ver Materias</a>
                 </div>
             </div>
@@ -29,7 +29,7 @@
             <div class="card border-left-info shadow h-100 py-2">
                 <div class="card-body d-flex flex-column">
                     <h6 class="text-xs font-weight-bold text-info text-uppercase mb-1">Profesores</h6>
-                    <p class="h5 mb-2 font-weight-bold text-gray-800">0</p>
+                    <p class="h5 mb-2 font-weight-bold text-gray-800">{{ $totalProfesores }}</p>
                     <a href="{{ route('admin.usuarios.index') }}" class="btn btn-info btn-sm mt-auto">Ver Profesores</a>
                 </div>
             </div>

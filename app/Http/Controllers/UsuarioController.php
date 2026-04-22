@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Traits\ActivityLogger;
 
 class UsuarioController extends Controller
 {
+    use ActivityLogger;
     /**
      * Despliega una lista de usuarios.
      */
@@ -42,9 +44,11 @@ class UsuarioController extends Controller
             'password' => bcrypt($request->password),
             'role' => $request->role,
         ]);
-        $usuario->assignRole($request->role);
 
-        return redirect()->route('usuarios.index')->with('success', 'Usuario creado exitosamente.');
+        $usuario->assignRole($request->role);
+        $this->logActivity('creó', 'Usuario', $usuario->name);
+
+        return redirect()->route('admin.usuarios.index')->with('success', 'Usuario creado exitosamente.');
     }
 
     // Mostrar los detalles de un usuario específico
@@ -78,15 +82,18 @@ class UsuarioController extends Controller
             'role' => $request->role,
         ]);
         $usuario->syncRoles([$request->role]);
-        return redirect()->route('usuarios.index')->with('success', 'Usuario actualizado exitosamente.');
+        $this->logActivity('actualizó', 'Usuario', $usuario->name);
+
+        return redirect()->route('admin.usuarios.index')->with('success', 'Usuario actualizado exitosamente.');
     }
 
     // Método para eliminar un usuario específico
     public function destroy(string $id)
     {
         $usuario = User::findOrFail($id);
+        $this->logActivity('eliminó', 'Usuario', $usuario->name);
         $usuario->delete();
 
-        return redirect()->route('usuarios.index')->with('success', 'Usuario eliminado exitosamente.');
+        return redirect()->route('admin.usuarios.index')->with('success', 'Usuario eliminado exitosamente.');
     }
 }

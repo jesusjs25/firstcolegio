@@ -14,7 +14,7 @@
 			</ul>
 		</div>
 	@endif
-	<form action="{{ route('materias.store') }}" method="POST">
+	<form action="{{ route('admin.materias.store') }}" method="POST">
 		@csrf
 		<div class="mb-3">
 			<label for="name" class="form-label">Nombre</label>
@@ -43,7 +43,7 @@
 			<small class="text-muted">Mantén presionada la tecla Ctrl (Windows) o Cmd (Mac) para seleccionar varios estudiantes.</small>
 		</div>
 		<button type="submit" class="btn btn-success">Registrar</button>
-		<a href="{{ route('materias.index') }}" class="btn btn-secondary">Cancelar</a>
+		<a href="{{ route('admin.materias.index') }}" class="btn btn-secondary">Cancelar</a>
 	</form>
 </div>
 @endsection
