@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\StoreUserRequest;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class userController extends Controller
@@ -12,7 +14,8 @@ class userController extends Controller
      */
     public function index()
     {
-        $usuarios = \App\Models\User::all();
+        $usuarios = User::all();
+
         return view('admin.usuarios.index', compact('usuarios'));
     }
 
@@ -27,21 +30,24 @@ class userController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
+        dd($request->all());
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:6',
             'rol' => 'required|in:admin,profe,estudiante',
+
         ]);
 
-        \App\Models\User::create([
+        User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
             'rol' => $data['rol'],
             'status' => 'activo',
+
         ]);
 
         return redirect()->route('admin.usuarios.index')->with('success', 'Usuario creado correctamente.');
@@ -76,7 +82,7 @@ class userController extends Controller
      */
     public function destroy(string $id)
     {
-        $user = \App\Models\User::findOrFail($id);
+        $user = User::findOrFail($id);
         $user->delete();
 
         return redirect()->route('admin.usuarios.index')->with('success', 'Usuario eliminado correctamente.');

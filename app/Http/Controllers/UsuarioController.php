@@ -2,19 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\Admin\StoreUserRequest;
 use App\Models\User;
 use App\Traits\ActivityLogger;
+use Illuminate\Http\Request;
 
 class UsuarioController extends Controller
 {
     use ActivityLogger;
+
     /**
      * Despliega una lista de usuarios.
      */
     public function index()
     {
-        $usuarios = User::all();
+        $usuarios = User::paginate(20);
+        // $usuarios = User::all();
+
         return view('admin.usuarios.index', compact('usuarios'));
     }
 
@@ -29,22 +33,9 @@ class UsuarioController extends Controller
     /**
      * Almacenar el usuario nuevo.
      */
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
-            'role' => 'required|in:Admin,Profesor,Alumno',
-        ]);
-
-        $usuario = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
-            'role' => $request->role,
-        ]);
-
+        $usuario = User::create($request->validated());
         $usuario->assignRole($request->role);
         $this->logActivity('creó', 'Usuario', $usuario->name);
 
@@ -56,6 +47,7 @@ class UsuarioController extends Controller
     public function show($id)
     {
         $usuario = User::findOrFail($id);
+
         return view('admin.usuarios.show', compact('usuario'));
     }
 
@@ -64,6 +56,7 @@ class UsuarioController extends Controller
     public function edit($id)
     {
         $usuario = User::findOrFail($id);
+
         return view('admin.usuarios.edit', compact('usuario'));
     }
 
@@ -73,7 +66,7 @@ class UsuarioController extends Controller
         $usuario = User::findOrFail($id);
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,' . $usuario->id,
+            'email' => 'required|string|email|max:255|unique:users,email,'.$usuario->id,
             'role' => 'required|in:Admin,Profesor,Alumno',
         ]);
         $usuario->update([
