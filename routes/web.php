@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MateriaController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Profesor\ProfesorController;
 use Illuminate\Http\Request;
 
 // --- RUTAS PÚBLICAS ---
@@ -57,18 +58,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/', function () {                                           // profesor/index
             return view('profesor.index'); 
         })->name('profesor.index');
-                Route::get('/materias-asignadas', function () {                 // profesor/materias
-                    return view('profesor.materias.index'); 
-                })->name('profesor.materias.index');
-                    Route::get('/plan-de-evaluacion/create', function () {      // profesor/materias/create
-                        return view('profesor.materias.create'); 
-                    })->name('profesor.materias.create');
-                Route::get('/alumnos-por-materia', function () {                // profesor/alumnos 
-                return view('profesor.alumnos.index'); 
-            })->name('alumnos.index');
-            Route::get('/promedios-recientes', function () {                    // profesor/promedios
-                return view('profesor.promedios.index'); 
-            })->name('promedios.index');
+                Route::get('/materias-asignadas', [ProfesorController::class, 'index'])->name('profesor.materias.index');    // profesor/materias-asignadas
+                Route::get('/alumnos-por-materia/{id}', [ProfesorController::class, 'alumnosPorMateria'])->name('alumnos.index');   // profesor/alumnos-por-materia/{id}
+                Route::get('/gestionar-notas', function () {                    // profesor/promedios
+                    return view('profesor.notas.index'); 
+                })->name('profesor.notas.index');
 
     });
 
