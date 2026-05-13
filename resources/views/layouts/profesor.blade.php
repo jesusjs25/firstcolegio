@@ -16,9 +16,25 @@
     <link rel="stylesheet" href="{{ asset('assets/compiled/css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/compiled/css/app-dark.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/compiled/css/iconly.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/extensions/choices.js/public/assets/styles/choices.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/dark.css">
 </head>
 
 <body>
+    <style>
+        /* Permite que el menú de Choices sobresalga de la tabla y las cards */
+        .table-responsive,
+        .card-body,
+        .card {
+            overflow: visible !important;
+        }
+
+        /* Asegura que el dropdown de Choices tenga un z-index alto para quedar arriba de todo */
+        .choices__list--dropdown {
+            z-index: 100 !important;
+        }
+    </style>
     <script src="{{ asset('assets/static/js/initTheme.js') }}"></script>
     <div id="app">
         <div id="sidebar">
@@ -81,14 +97,14 @@
                 class="sidebar-item {{ request()->routeIs('profesor.materias.index') ? 'active' : '' }}">
                 <a href="{{ route('profesor.materias.index') }}" class='sidebar-link'>
                     <i class="bi bi-book-half"></i>
-                    <span>Materias asignadas</span>
+                    <span>Mis materias</span>
                 </a>
                 
             </li>
 
             <li
                 class="sidebar-item {{ request()->routeIs('alumnos.index') ? 'active' : '' }}">
-                <a href="{{ route('alumnos.index') }}" class='sidebar-link'>
+                <a href="{{-- route('alumnos.index') --}}#" class='sidebar-link'>
                     <i class="bi bi-people-fill"></i>
                     <span>Alumnos por materia</span>
                 </a>
@@ -96,10 +112,10 @@
             </li>
 
             <li
-                class="sidebar-item {{ request()->routeIs('promedios.index') ? 'active' : '' }}">
-                <a href="{{ route('promedios.index') }}" class='sidebar-link'>
+                class="sidebar-item {{ request()->routeIs('profesor.notas.index') ? 'active' : '' }}">
+                <a href="{{ route('profesor.notas.index') }}" class='sidebar-link'>
                     <i class="bi bi-123"></i>
-                    <span>Promedios recientes</span>
+                    <span>Gestionar notas</span>
                 </a>
                 
             </li>
@@ -176,6 +192,8 @@
 <!-- Need: Apexcharts -->
 <script src="{{ asset('assets/extensions/apexcharts/apexcharts.min.js') }}"></script>
 <script src="{{ asset('assets/static/js/pages/dashboard.js') }}"></script>
+<script src="{{ asset('assets/extensions/choices.js/public/assets/scripts/choices.js') }}"></script>
+    @stack('scripts')
 
 </body>
 

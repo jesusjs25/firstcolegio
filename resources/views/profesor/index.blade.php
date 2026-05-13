@@ -84,132 +84,159 @@
                     </div>
                 </div>
             </div>--}}
-           <div class="row" id="table-striped">
-                <div class="col-12">
+           <div class="col-12 col-xl-8">
+                <h4>Notas recientes</h4>
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">Próxima evaluación sección A</h4>
+                            <h5>3er año</h5>
                         </div>
-                        <div class="card-content">
-                            {{--<div class="card-body">
-                                <p class="card-text">Use <code class="highlighter-rouge">.table-striped</code> to add
-                                    zebra-striping to any                                        table row within the <code class="highlighter-rouge">&lt;tbody&gt;</code>. This styling
-                                    doesn't work in E8
-                                    and below as <code>:nth-child</code> CSS selector isn't supported.</p>
-                            </div>--}}
-                            <!-- table striped -->
+                        <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-striped mb-0 text-center">
+                                <table class="table table-hover table-lg">
                                     <thead>
                                         <tr>
-                                            <th>UNIDAD</th>
-                                            <th>OBJETIVO</th>                                                
-                                            <th>CONTENIDO</th>
-                                            <th>TIPO DE EVALUACIÓN</th>
-                                            <th>FECHA</th>
-                                            <th>ACCIÓN</th>
+                                            <th>Nombre</th>
+                                            <th>Evaluación</th>
+                                            <th>Nota</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td class="text-bold-500">1</td>
-                                            <td>Ingeniería de prompts</td>
-                                            <td class="text-bold-500">Creación de contenido estructurado y resolución de problemas</td>
-                                            <td>Prueba práctica</td>
-                                            <td>12/04/2026</td>
-                                            <td><a class="btn btn-success" href="#">HECHO</a></td>
-                                          </tr>
+                                            <td class="col-3">
+                                                <div class="d-flex align-items-center">
+                                                    <p class="font-bold ms-3 mb-0">Juan Pérez</p>
+                                                </div>
+                                            </td>
+                                            <td class="col-6">
+                                                <p class=" mb-0">Ingeniería del prompt</p>
+                                            </td>
+                                            <td class="col-auto">
+                                                <div class="d-flex align-items-center">
+                                                    <p class="font-bold ms-3 mb-0">3.4</p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="col-3">
+                                                <div class="d-flex align-items-center">
+                                                    <p class="font-bold ms-3 mb-0">María Gomez</p>
+                                                </div>
+                                            </td>
+                                            <td class="col-6">
+                                                <p class=" mb-0">Ingeniería del prompt</p>
+                                            </td>
+                                            <td class="col-auto">
+                                                <div class="d-flex align-items-center">
+                                                    <p class="font-bold ms-3 mb-0">4</p>
+                                                </div>
+                                            </td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="row" id="table-striped">
-                <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">Próxima evaluación sección B</h4>
+                            <h5>4to año</h5>
                         </div>
-                        <div class="card-content">
-                            {{--<div class="card-body">
-                                <p class="card-text">Use <code class="highlighter-rouge">.table-striped</code> to add
-                                    zebra-striping to any                                        table row within the <code class="highlighter-rouge">&lt;tbody&gt;</code>. This styling
-                                    doesn't work in E8
-                                    and below as <code>:nth-child</code> CSS selector isn't supported.</p>
-                            </div>--}}
-                            <!-- table striped -->
+                        <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-striped mb-0 text-center">
+                                <table class="table table-hover table-lg">
                                     <thead>
                                         <tr>
-                                            <th>UNIDAD</th>
-                                            <th>OBJETIVO</th>                                                
-                                            <th>CONTENIDO</th>
-                                            <th>TIPO DE EVALUACIÓN</th>
-                                            <th>FECHA</th>
-                                            <th>ACCIÓN</th>
+                                            <th>Nombre</th>
+                                            <th>Evaluación</th>
+                                            <th>Nota</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td class="text-bold-500">1</td>
-                                            <td>Ingeniería de prompts</td>
-                                            <td class="text-bold-500">Creación de contenido estructurado y resolución de problemas</td>
-                                            <td>Prueba práctica</td>
-                                            <td>12/04/2026</td>
-                                            <td><a class="btn btn-success" href="#">HECHO</a></td>
-                                          </tr>
+                                            <td class="col-3">
+                                                <div class="d-flex align-items-center">
+                                                    <p class="font-bold ms-3 mb-0">Juan Pérez</p>
+                                                </div>
+                                            </td>
+                                            <td class="col-6">
+                                                <p class=" mb-0">Ingeniería del prompt</p>
+                                            </td>
+                                            <td class="col-auto">
+                                                <div class="d-flex align-items-center">
+                                                    <p class="font-bold ms-3 mb-0">3.4</p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="col-3">
+                                                <div class="d-flex align-items-center">
+                                                    <p class="font-bold ms-3 mb-0">María Gomez</p>
+                                                </div>
+                                            </td>
+                                            <td class="col-6">
+                                                <p class=" mb-0">Ingeniería del prompt</p>
+                                            </td>
+                                            <td class="col-auto">
+                                                <div class="d-flex align-items-center">
+                                                    <p class="font-bold ms-3 mb-0">4</p>
+                                                </div>
+                                            </td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div> 
-            <div class="row" id="table-striped">
-                <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">Próxima evaluación sección C</h4>
+                            <h5>5to año</h5>
                         </div>
-                        <div class="card-content">
-                            {{--<div class="card-body">
-                                <p class="card-text">Use <code class="highlighter-rouge">.table-striped</code> to add
-                                    zebra-striping to any                                        table row within the <code class="highlighter-rouge">&lt;tbody&gt;</code>. This styling
-                                    doesn't work in E8
-                                    and below as <code>:nth-child</code> CSS selector isn't supported.</p>
-                            </div>--}}
-                            <!-- table striped -->
+                        <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-striped mb-0 text-center">
+                                <table class="table table-hover table-lg">
                                     <thead>
                                         <tr>
-                                            <th>UNIDAD</th>
-                                            <th>OBJETIVO</th>                                                
-                                            <th>CONTENIDO</th>
-                                            <th>TIPO DE EVALUACIÓN</th>
-                                            <th>FECHA</th>
-                                            <th>ACCIÓN</th>
+                                            <th>Nombre</th>
+                                            <th>Evaluación</th>
+                                            <th>Nota</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td class="text-bold-500">1</td>
-                                            <td>Ingeniería de prompts</td>
-                                            <td class="text-bold-500">Creación de contenido estructurado y resolución de problemas</td>
-                                            <td>Prueba práctica</td>
-                                            <td>12/04/2026</td>
-                                            <td><a class="btn btn-success" href="#">HECHO</a></td>
-                                          </tr>
+                                            <td class="col-3">
+                                                <div class="d-flex align-items-center">
+                                                    <p class="font-bold ms-3 mb-0">Juan Pérez</p>
+                                                </div>
+                                            </td>
+                                            <td class="col-6">
+                                                <p class=" mb-0">Ingeniería del prompt</p>
+                                            </td>
+                                            <td class="col-auto">
+                                                <div class="d-flex align-items-center">
+                                                    <p class="font-bold ms-3 mb-0">3.4</p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="col-3">
+                                                <div class="d-flex align-items-center">
+                                                    <p class="font-bold ms-3 mb-0">María Gomez</p>
+                                                </div>
+                                            </td>
+                                            <td class="col-6">
+                                                <p class=" mb-0">Ingeniería del prompt</p>
+                                            </td>
+                                            <td class="col-auto">
+                                                <div class="d-flex align-items-center">
+                                                    <p class="font-bold ms-3 mb-0">4</p>
+                                                </div>
+                                            </td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div> 
+                </div> 
             <div class="row">
                 <div class="col-12 ">
                     <div class="card">
