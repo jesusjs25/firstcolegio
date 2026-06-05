@@ -13,11 +13,10 @@ class Materia extends Model
     protected $fillable = [
         'nombre',
         'descripcion',
-        'teachers_id',
     ];
 
     // Atributos virtuales para compatibilidad con las vistas existentes.
-    public function getNameAttribute()
+    /*public function getNameAttribute()
     {
         return $this->attributes['nombre'] ?? null;
     }
@@ -55,6 +54,17 @@ class Materia extends Model
     public function estudiantes()
     {
         return $this->belongsToMany(User::class, 'materia_student', 'materia_id', 'student_id');
-    }
+    }*/
+
+        public function horarios() {
+            return $this->hasMany(Schedule::class);
+        }
+        public function teachers() {
+            // Es el espejo del anterior
+            return $this->belongsToMany(Teacher::class, 'materia_teacher', 'materia_id', 'teacher_id');
+        }
+        public function notas() {
+            return $this->hasMany(Nota::class);
+        }
 }
 

@@ -49,4 +49,14 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    // Un usuario tiene un perfil de alumno
+    public function student(){
+    
+        return $this->hasOne(Student::class);           //Relación con el modelo Student
+    }
+
+    public function teacher() {
+        return $this->hasOne(Teacher::class);           // Relación con el modelo Teacher
+    }
 }
