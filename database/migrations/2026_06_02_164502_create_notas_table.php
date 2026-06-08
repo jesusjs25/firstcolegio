@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('materia_id')->constrained('materias')->onDelete('cascade');
             $table->foreignId('teacher_id')->constrained('teachers')->onDelete('cascade');
             $table->string('nombre_nota');
-            $table->unsignedDecimal('valor_nota', 4, 2);
+            $table->float('valor_nota', 4, 2);
             $table->date('fecha_nota');
             $table->timestamps();
         });

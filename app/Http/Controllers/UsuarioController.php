@@ -5,9 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Admin\StoreUserRequest;
 use App\Models\User;
 use App\Traits\ActivityLogger;
-use Illuminate\Http\Request;
-use App\Models\User;
-use App\Traits\ActivityLogger;
 
 class UsuarioController extends Controller
 {
@@ -60,7 +57,7 @@ class UsuarioController extends Controller
     }
 
     // Método para actualizar un usuario específico
-    public function update(Request $request, $id)
+    public function update(StoreUserRequest $request, $id)
     {
         $usuario = User::findOrFail($id);
         $request->validate([

@@ -19,7 +19,8 @@ return new class extends Migration
 
         //Tabla materias
         Schema::table('materias', function (Blueprint $table) {
-            $table->dropColumn('teacher_id');
+            $table->dropForeign(['teachers_id']); // Eliminar la clave foránea antes de eliminar la columna
+            $table->dropColumn('teachers_id');
         });
     }
 
@@ -36,7 +37,7 @@ return new class extends Migration
 
         //Tabla materias
         Schema::table('materias', function (Blueprint $table) {
-            $table->foreignId('teacher_id')->constrained('teachers')->after('name')->onDelete('cascade');
+            $table->foreignId('teachers_id')->constrained('teachers')->after('name')->onDelete('cascade');
         });
     }
 };
