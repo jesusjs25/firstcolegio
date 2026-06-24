@@ -40,6 +40,12 @@ class DatabaseSeeder extends Seeder
         ]);
         $userProfesor->assignRole($roleProfesor);
 
+        \App\Models\Teacher::firstOrCreate([
+        'user_id' => $userProfesor->id,
+        ],
+        ['specialty' => 'Matemáticas'
+        ]);
+
         // 3. Crear el Alumno de prueba
         $userAlumno = User::firstOrCreate([
             'email' => 'angelo@gmail.com',
@@ -50,6 +56,14 @@ class DatabaseSeeder extends Seeder
         ]);
         
         $userAlumno->assignRole($roleAlumno);
+
+        \App\Models\Student::firstOrCreate([
+            'user_id' => $userAlumno->id,
+        ], [
+            'document' => '12345678',
+            'birth_date' => '2005-05-15'
+        ]);
+
         // User::factory(10)->create();
 
         /*User::factory()->create([

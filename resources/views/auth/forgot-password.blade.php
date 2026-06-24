@@ -51,12 +51,12 @@
 
                         <div class="form-group position-relative has-icon-left mb-4">
                             <input type="email" 
-                                   name="email" 
-                                   class="form-control form-control-xl @error('email') is-invalid @enderror" 
-                                   placeholder="Correo electrónico" 
-                                   value="{{ old('email') }}" 
-                                   required 
-                                   autofocus>
+                                name="email" 
+                                class="form-control form-control-xl @error('email') is-invalid @enderror" 
+                                placeholder="Correo electrónico" 
+                                value="{{ old('email') }}" 
+                                required 
+                                autofocus>
                             <div class="form-control-icon">
                                 <i class="bi bi-envelope"></i>
                             </div>

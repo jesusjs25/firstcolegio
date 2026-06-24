@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register - First Colegio</title>
+    <title>Registro - First Colegio</title>
     
     
     
@@ -25,44 +25,42 @@
             <div class="auth-logo">
                 <a href="index.html"><img src="./assets/compiled/svg/logo.svg" alt="Logo"></a>
             </div>
-            <h1 class="auth-title">Sign Up</h1>
-            <p class="auth-subtitle mb-5">Input your data to register to our website.</p>
+            <h1 class="auth-title">Registrate</h1>
+            <p class="auth-subtitle mb-5">Completa los campos para crear tu cuenta.</p>
 
                 <form action="{{ route('register') }}" method="POST">
                 @csrf
 
                 <div class="form-group position-relative has-icon-left mb-4">
-                    <input type="email" class="form-control form-control-xl" placeholder="Email" name="email" value="{{ old('email') }}">
+                    <input type="email" class="form-control form-control-xl" placeholder="Correo electrónico" name="email" value="{{ old('email') }}">
                     <div class="form-control-icon">
                         <i class="bi bi-envelope"></i>
                     </div>
                 </div>
                 <div class="form-group position-relative has-icon-left mb-4">
-                    <input type="text" class="form-control form-control-xl" placeholder="Username" name="name">
+                    <input type="text" class="form-control form-control-xl" placeholder="Nombre de usuario" name="name">
                     <div class="form-control-icon">
                         <i class="bi bi-person"></i>
                     </div>
                 </div>
                 <div class="form-group position-relative has-icon-left mb-4">
-                    <input type="password" class="form-control form-control-xl" placeholder="Password" name="password">
+                    <input type="password" class="form-control form-control-xl" placeholder="Contraseña" name="password">
                     <div class="form-control-icon">
                         <i class="bi bi-shield-lock"></i>
                     </div>
                 </div>
                 <div class="form-group position-relative has-icon-left mb-4">
-                    <input type="password" class="form-control form-control-xl" placeholder="Confirm Password" name="password_confirmation">
+                    <input type="password" class="form-control form-control-xl" placeholder="Confirmar contraseña" name="password_confirmation">
                     <div class="form-control-icon">
                         <i class="bi bi-shield-lock"></i>
                     </div>
                 </div>
                 <button class="btn btn-primary btn-block btn-lg shadow-lg mt-5" type="submit">
-                    Sign Up
-                {{ __('Register') }}
+                {{ __('Registrarse') }}
                 </button>
             </form>
             <div class="text-center mt-5 text-lg fs-4">
-                <p class='text-gray-600'>Already have an account? <a href="{{ route('login') }}" class="font-bold">Log
-                        in</a>.</p>
+                <p class='text-gray-600'>¿Ya tienes una cuenta? <a href="{{ route('login') }}" class="font-bold">Inicia sesión</a>.</p>
             </div>
         </div>
     </div>

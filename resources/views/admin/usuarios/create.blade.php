@@ -31,6 +31,24 @@
 			<label for="password_confirmation" class="form-label">Confirmar Contraseña</label>
 			<input type="password" class="form-control" id="password_confirmation" name="password_confirmation" required>
 		</div>
+		<div id="campos-alumno" style="display: none;">
+            <div class="mb-3">
+                <label for="document" class="form-label">Documento / DNI</label>
+                <input type="text" inputmode="numeric" pattern="[0-9]*" name="document" id="document" class="form-control" value="{{ old('document') }}">
+            </div>
+            <div class="mb-3">
+                <label for="birth_date" class="form-label">Fecha de Nacimiento</label>
+                <input type="date" name="birth_date" id="birth_date" class="form-control" value="{{ old('birth_date') }}">
+            </div>
+        </div>
+
+        <div id="campos-profesor" style="display: none;">
+            <div class="mb-3">
+                <label for="specialty" class="form-label">Especialidad</label>
+                <input type="text" name="specialty" id="specialty" class="form-control" value="{{ old('specialty') }}">
+            </div>
+        </div>
+
 		<div class="mb-3">
 			<label for="role" class="form-label">Rol</label>
 			<select class="form-select" id="role" name="role" required>
@@ -44,4 +62,32 @@
 		<a href="{{ route('admin.usuarios.index') }}" class="btn btn-secondary">Cancelar</a>
 	</form>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const selectRol = document.getElementById('role');
+    const camposAlumno = document.getElementById('campos-alumno');
+    const camposProfesor = document.getElementById('campos-profesor');
+
+    function alternarCampos() {
+        const valor = selectRol.value;
+        if (valor === 'Alumno') {
+            camposAlumno.style.display = 'block';
+            camposProfesor.style.display = 'none';
+        } else if (valor === 'Profesor') {
+            camposAlumno.style.display = 'none';
+            camposProfesor.style.display = 'block';
+        } else {
+            camposAlumno.style.display = 'none';
+            camposProfesor.style.display = 'none';
+        }
+    }
+
+    // Escuchar cuando el usuario cambie de rol manualmente
+    selectRol.addEventListener('change', alternarCampos);
+
+    // Ejecutar al cargar la página por si regresa con errores de validación (Old input)
+    alternarCampos();
+});
+</script>
 @endsection

@@ -8,6 +8,7 @@ class Materia extends Model
 {
     use HasFactory;
 
+    protected $table = 'materias';
     /* Especificamos el nombre de las columnas en la base de datos
     que se pueden asignar masivamente (mass assignment)*/
     protected $fillable = [
@@ -50,11 +51,11 @@ class Materia extends Model
     {
         return $this->belongsTo(User::class, 'teachers_id');
     }
-
-    public function estudiantes()
+    */
+    public function students()
     {
-        return $this->belongsToMany(User::class, 'materia_student', 'materia_id', 'student_id');
-    }*/
+        return $this->belongsToMany(User::class, 'materia_student', 'materia_id', 'student_id')->withPivot('teacher_id')->withTimestamps();
+    }
 
         public function horarios() {
             return $this->hasMany(Schedule::class);

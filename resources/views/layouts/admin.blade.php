@@ -151,7 +151,7 @@
                                 </div>
                                 <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
                                     <h6 class="text-muted font-semibold">Estudiantes</h6>
-                                    <h6 class="font-extrabold mb-0">{{ $totalEstudiantes }}</h6> {{--Aquí debería mostrar el número real de estudiantes, {{ $totalStudents }}, el cual esta en el controlador pero no se muestra por alguna razon--}}
+                                    <h6 class="font-extrabold mb-0">{{ $totalEstudiantes }}</h6>
                                 </div>
                             </div> 
                         </div>

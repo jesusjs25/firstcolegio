@@ -3,8 +3,8 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Materia;
-use App\Models\teacher;
-use App\Models\student;
+use App\Models\Teacher;
+use App\Models\Student;
 use Illuminate\Http\Request;
 use App\Traits\ActivityLogger;
 class MateriaController extends Controller
@@ -20,8 +20,8 @@ public function index()
 public function create()
 {
     // Buscamos usuarios que tengan asignado el nombre del rol tal cual sale en la BD
-    $profesores = User::role('Profesor')->get();
-    $estudiantes = User::role('Alumno')->get();
+    $profesores = Teacher::with('user')->get();
+    $estudiantes = Student::with('user')->get();
 
     return view('admin.materias.create', compact('profesores', 'estudiantes'));
 }
@@ -31,28 +31,39 @@ public function create()
 public function store(Request $request)
 {
     $request->validate([
-        'name' => 'required|string|max:255',
-        'description' => 'required|string',
-        'teacher_id' => 'required|exists:users,id',
-        'estudiantes' => 'nullable|array',
-        'estudiantes.*' => 'exists:users,id',
+        'nombre' => 'required|string|max:255',
+        'descripcion' => 'required|string',
+        'teacher_id' => 'required|exists:teachers,id',
     ]);
 
     $materia = Materia::create([
-        'nombre' => $request->name,
-        'descripcion' => $request->description,
-        'teachers_id' => $request->teacher_id,
+        'nombre' => $request->input('nombre'),
+        'descripcion' => $request->input('descripcion'),
     ]);
 
-    if ($request->has('estudiantes')) {
-        $materia->estudiantes()->sync($request->estudiantes);
+    if ($request->has('teacher_id')) {
+        $materia->teachers()->attach($request->teacher_id);
     }
 
-    $this->logActivity('creó', 'Materia', "Materia {$materia->nombre} creada");
+    if ($request->has('estudiantes')) {
+        // 1. Capturamos el profesor seleccionado en el formulario
+    $teacherId = $request->input('teacher_id');
+
+    // 2. Armamos el arreglo asociando cada ID de estudiante con su respectivo profesor
+    $estudiantesData = [];
+    foreach ($request->input('estudiantes') as $studentId) {
+        $estudiantesData[$studentId] = [
+            'teacher_id' => $teacherId
+        ];
+    }
+
+    // 3. Pasamos el array completo con los datos de la tabla pivot incluidos
+        $materia->students()->attach($estudiantesData);
+    }
+        $this->logActivity('creó', 'Materia', "Materia {$materia->nombre} creada");
 
     return redirect()->route('admin.materias.index')->with('success', 'Materia creada exitosamente.');
 }
-
 
 // Método para mostrar los detalles de una materia específica
 public function show(Materia $materia)
@@ -64,7 +75,16 @@ public function show(Materia $materia)
 // Método para mostrar el formulario de edición de una materia específica
 public function edit(Materia $materia)
 {
-    return view('admin.materias.edit', compact('materia'));
+    // Carga las relaciones exactas de tu modelo
+    $materia->load(['teachers.user', 'students']);
+
+    // Listas para los selectores del formulario
+    $profesores = Teacher::with('user')->get();
+    
+    // Como tu relación apunta a User::class, listamos los usuarios con rol estudiante
+    $estudiantes = Student::with('user')->get(); 
+
+    return view('admin.materias.edit', compact('materia', 'profesores', 'estudiantes'));
 }
 
 
@@ -72,26 +92,32 @@ public function edit(Materia $materia)
 public function update(Request $request, Materia $materia)
 {
     $request->validate([
-        'name' => 'required|string|max:255',
-        'description' => 'nullable|string',
+        'nombre' => 'required|string|max:255',
+        'descripcion' => 'required|string',
         'teacher_id' => 'required|exists:users,id',
-        'estudiantes' => 'array',
-        'estudiantes.*' => 'exists:users,id',
+        'estudiantes' => 'required|array',
     ]);
 
     $materia->update([
-        'nombre' => $request->name,
-        'descripcion' => $request->description,
-        'teachers_id' => $request->teacher_id,
+        'nombre' => $request->input('nombre'),
+        'descripcion' => $request->input('descripcion'),
     ]);
 
-    if ($request->has('estudiantes')) {
-        $materia->estudiantes()->sync($request->estudiantes);
+    $materia->teachers()->sync($request->teacher_id);
+
+    $teacherId = $request->input('teacher_id');
+    $estudiantesData = [];
+
+    foreach ($request->input('estudiantes') as $studentId) {
+        $estudiantesData[$studentId] = [
+            'teacher_id' => $teacherId
+        ];
     }
+        $materia->students()->sync($estudiantesData);
 
-    $this->logActivity('editó', 'Materia', "Materia {$materia->nombre} editada");
+    $this->logActivity('actualizó', 'Materia', "Materia {$materia->nombre} actualizada");
 
-    return redirect()->route('materias.index')->with('success', 'Materia actualizada exitosamente.');
+    return redirect()->route('admin.materias.index')->with('success', 'Materia actualizada exitosamente.');
 }
 
 

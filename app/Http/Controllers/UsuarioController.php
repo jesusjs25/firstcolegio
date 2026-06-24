@@ -3,7 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Admin\StoreUserRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Models\User;
+use App\Models\Student;
+use App\Models\Teacher;
+
 use App\Traits\ActivityLogger;
 
 class UsuarioController extends Controller
@@ -33,11 +38,40 @@ class UsuarioController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        $usuario = User::create($request->validated());
-        $usuario->assignRole($request->role);
-        $this->logActivity('creó', 'Usuario', $usuario->name);
+    // Usamos una transacción para que no se cree el usuario si falla el perfil
+        DB::transaction(function () use ($request) {
+        
+        // 1. Crear el usuario base con los datos validados
+        $usuario = User::create([
+            'name'     => $request->name,
+            'email'    => $request->email,
+            'password' => bcrypt($request->password),
+            'role'     => $request->role,
+        ]);
 
-        return redirect()->route('admin.usuarios.index')->with('success', 'Usuario creado exitosamente.');
+        // 2. Asignar el rol (si usas Spatie)
+        if (method_exists($usuario, 'assignRole')) {
+            $usuario->assignRole($request->role);
+        }
+
+        // 3. Crear el perfil extra según el rol
+        if ($request->role === 'Alumno') {
+            Student::create([
+                'user_id'    => $usuario->id,
+                'document'   => $request->document,
+                'birth_date' => $request->birth_date,
+            ]);
+        } elseif ($request->role === 'Profesor') {
+            Teacher::create([
+                'user_id'   => $usuario->id,
+                'specialty' => $request->specialty,
+            ]);
+        }
+
+        $this->logActivity('creó', 'Usuario', $usuario->name);
+    });
+
+    return redirect()->route('admin.usuarios.index')->with('success', 'Usuario creado exitosamente');
     }
 
     // Mostrar los detalles de un usuario específico
@@ -57,7 +91,7 @@ class UsuarioController extends Controller
     }
 
     // Método para actualizar un usuario específico
-    public function update(StoreUserRequest $request, $id)
+    public function update(Request $request, $id)
     {
         $usuario = User::findOrFail($id);
         $request->validate([

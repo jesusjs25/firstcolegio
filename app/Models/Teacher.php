@@ -15,7 +15,7 @@ class Teacher extends Model
         'specialty',
     ];
 
-     /**
+    /**
      * Relación: Un Teacher pertenece a un Usuario
      */
 

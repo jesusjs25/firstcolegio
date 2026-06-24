@@ -9,9 +9,12 @@ use App\Http\Controllers\Profesor\ProfesorController;
 use Illuminate\Http\Request;
 
 // --- RUTAS PÚBLICAS ---
+/*
 Route::get('/', function () {
     return view('welcome');
-});
+}); */
+
+Route::redirect('/', '/dashboard'); // Redirige la raíz al dashboard (que luego redirige según rol)
 
 // --- RUTAS PROTEGIDAS (REQUIEREN LOGIN) ---
 Route::middleware(['auth', 'verified'])->group(function () {

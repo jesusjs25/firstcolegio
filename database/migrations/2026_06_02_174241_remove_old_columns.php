@@ -9,13 +9,15 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
+
+    
     public function up(): void
     {
         //Borrar las columnas que ya no se necesitan
         //Tabla users
-        Schema::table('users', function (Blueprint $table) {
+        /*Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('rol');
-        });
+        }); */
 
         //Tabla materias
         Schema::table('materias', function (Blueprint $table) {

@@ -26,10 +26,16 @@
 				<tbody>
 					@foreach($materias as $materia)
 						<tr>
-							<td>{{ $materia->name }}</td>
-							<td>{{ $materia->description }}</td>
-							<td>{{ $materia->profesor ? $materia->profesor->name : 'Sin asignar' }}</td>
-							<td>{{ $materia->estudiantes->count() }}</td>
+							<td>{{ $materia->nombre }}</td>
+							<td>{{ $materia->descripcion }}</td>
+							<td>
+								@if($materia->teachers && $materia->teachers->isNotEmpty())
+									{{ $materia->teachers->first()->user->name ?? 'Sin Nombre' }}
+								@else
+									<span class="text-muted">Sin asignar</span>
+								@endif
+							</td>
+							<td>{{ $materia->students->count() }}</td>
 							<td>
 								<a href="{{ route('admin.materias.edit', $materia) }}" class="btn btn-sm btn-warning">Editar</a>
 								<form action="{{ route('admin.materias.destroy', $materia) }}" method="POST" style="display:inline-block;">
