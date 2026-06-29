@@ -107,7 +107,7 @@
             <ul class="submenu ">
 
                 <li class="submenu-item ">
-                    <a href="{{ url('/admin/profile') }}" class="submenu-link">Perfil</a>
+                    <a href="{{ url('/profile') }}" class="submenu-link">Perfil</a>
                 </li>
                 <li class="submenu-item ">
                     <a href="{{ url('/admin/security') }}" class="submenu-link">Seguridad</a>

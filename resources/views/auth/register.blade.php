@@ -48,12 +48,22 @@
                     <div class="form-control-icon">
                         <i class="bi bi-shield-lock"></i>
                     </div>
+                    @error('password')
+                        <div class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </div>
+                    @enderror
                 </div>
                 <div class="form-group position-relative has-icon-left mb-4">
-                    <input type="password" class="form-control form-control-xl" placeholder="Confirmar contraseña" name="password_confirmation">
+                    <input type="password" class="form-control form-control-xl @error('password') is-invalid @enderror" placeholder="Confirmar contraseña" name="password_confirmation">
                     <div class="form-control-icon">
                         <i class="bi bi-shield-lock"></i>
                     </div>
+                    @error('password_confirmation')
+                    <div class="invalid-feedback d-block mt-1">
+                        <strong>Las contraseñas no coinciden.</strong>
+                    </div>
+                    @enderror
                 </div>
                 <button class="btn btn-primary btn-block btn-lg shadow-lg mt-5" type="submit">
                 {{ __('Registrarse') }}

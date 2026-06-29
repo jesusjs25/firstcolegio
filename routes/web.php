@@ -27,11 +27,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', function (Request $request) {
         $user = $request->user();
         
-        if ($user->hasRole('Admin')) {
+        if ($user->role === 'Admin') {
             return redirect()->route('admin.index');
-        } elseif ($user->hasRole('Profesor')) {
+        } elseif ($user->role === 'Profesor') {
             return redirect()->route('profesor.index');
-        } elseif ($user->hasRole('Alumno')) {
+        } elseif ($user->role === 'Alumno') {
             return redirect()->route('alumno.index');
         }
 
@@ -72,7 +72,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // ==========================================
     // SECCIÓN ALUMNO
     // ==========================================
-    Route::middleware(['role:Alumno'])->prefix('alumno')->group(function () {
+    Route::middleware(['auth'])->prefix('alumno')->group(function () { 
         Route::get('/', function () {
             // Asegúrate de crear esta vista en resources/views/alumno/index.blade.php
             return view('alumno.index'); 

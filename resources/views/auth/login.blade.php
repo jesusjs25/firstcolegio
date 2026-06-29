@@ -30,15 +30,28 @@
 
             <form action="{{ route('login') }}" method="POST">
                 @csrf
+                    @if ($errors->any())
+                        <div class="alert alert-danger alert-dismissible show fade mb-4">
+                        <div class="d-flex align-items-center">
+                        <i class="bi bi-exclamation-triangle-fill me-2 fs-5"></i>
+                        <ul class="mb-0 list-unstyled">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                        </ul>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                    @endif
 
                 <div class="form-group position-relative has-icon-left mb-4">
-                    <input type="text" class="form-control form-control-xl" placeholder="Correo electrónico" name="email">
+                    <input type="text" class="form-control form-control-xl @error('email') is-invalid @enderror" placeholder="Correo electrónico" name="email" value="{{ old('email') }}">
                     <div class="form-control-icon">
                         <i class="bi bi-person"></i>
                     </div>
                 </div>
                 <div class="form-group position-relative has-icon-left mb-4">
-                    <input type="password" class="form-control form-control-xl" placeholder="Contraseña" name="password">
+                    <input type="password" class="form-control form-control-xl @error('email') is-invalid @enderror" placeholder="Contraseña" name="password">
                     <div class="form-control-icon">
                         <i class="bi bi-shield-lock"></i>
                     </div>

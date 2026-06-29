@@ -79,7 +79,7 @@
 
             <li
                 class="sidebar-item ">
-                <a href="{{ route('materias.index') }}" class='sidebar-link'>
+                <a href="{{ route('admin.materias.index') }}" class='sidebar-link'>
                     <i class="bi bi-book-half"></i>
                     <span>Materias asignadas</span>
                 </a>
@@ -88,7 +88,7 @@
 
             <li
                 class="sidebar-item ">
-                <a href="{{ route('usuarios.index') }}" class='sidebar-link'>
+                <a href="{{ route('admin.usuarios.index') }}" class='sidebar-link'>
                     <i class="bi bi-people-fill"></i>
                     <span>Alumnos por materia</span>
                 </a>
@@ -97,7 +97,7 @@
 
             <li
                 class="sidebar-item ">
-                <a href="{{ route('usuarios.index') }}" class='sidebar-link'>
+                <a href="{{ route('admin.usuarios.index') }}" class='sidebar-link'>
                     <i class="bi bi-123"></i>
                     <span>Promedios recientes</span>
                 </a>
