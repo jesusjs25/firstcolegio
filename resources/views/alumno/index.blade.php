@@ -1,10 +1,13 @@
-@extends('layouts.alumno') 
+@extends('layouts.alumno')
+
+@section('title', 'Dashboard Alumno')
+
 @section('content')
 <div class="page-heading">
     <div class="page-title">
         <div class="row">
             <div class="col-12 col-md-6 order-md-1 order-last">
-                <h3>Bienvenido, {{ auth()->user()->name }} 👋</h3>
+                <h3>Bienvenido, {{ auth()->user()->name ?? 'Estudiante' }} 👋</h3>
                 <p class="text-subtitle text-muted">Panel de control y resumen académico escolar.</p>
             </div>
         </div>
