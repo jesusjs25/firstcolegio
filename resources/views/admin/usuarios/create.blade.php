@@ -15,6 +15,17 @@
 	@endif
 	<form action="{{ route('admin.usuarios.store') }}" method="POST">
 		@csrf
+
+		<div class="mb-3">
+			<label for="role" class="form-label">Rol</label>
+			<select class="form-select" id="role" name="role" required>
+				<option value="">Seleccione un rol</option>
+				<option value="Admin">Administrador</option>
+				<option value="Profesor">Profesor</option>
+				<option value="Alumno">Alumno</option>
+			</select>
+		</div>
+
 		<div class="mb-3">
 			<label for="name" class="form-label">Nombre</label>
 			<input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}" required>
@@ -42,22 +53,20 @@
             </div>
         </div>
 
-        <div id="campos-profesor" style="display: none;">
-            <div class="mb-3">
-                <label for="specialty" class="form-label">Especialidad</label>
-                <input type="text" name="specialty" id="specialty" class="form-control" value="{{ old('specialty') }}">
-            </div>
-        </div>
-
-		<div class="mb-3">
-			<label for="role" class="form-label">Rol</label>
-			<select class="form-select" id="role" name="role" required>
-				<option value="">Seleccione un rol</option>
-				<option value="Admin">Administrador</option>
-				<option value="Profesor">Profesor</option>
-				<option value="Alumno">Alumno</option>
+	<div id="campos-profesor" style="display: none;">
+        <div class="form-group mb-3">
+			<label class="form-label">Especialidad</label>
+			<select name="specialty[]" id="specialty" class="form-control" multiple>
+        <option value="Matemáticas">Matemáticas</option>
+        <option value="Física">Física</option>
+        <option value="Química">Química</option>
+        <option value="Historia">Historia</option>
+        <option value="Biología">Biología</option>
 			</select>
+    <small class="text-muted">Mantén presionado Ctrl (o Cmd en Mac) para seleccionar varias.</small>
 		</div>
+	</div>
+
 		<button type="submit" class="btn btn-success">Registrar</button>
 		<a href="{{ route('admin.usuarios.index') }}" class="btn btn-secondary">Cancelar</a>
 	</form>

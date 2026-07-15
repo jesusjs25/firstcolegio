@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MateriaController;
 use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\ReporteController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Profesor\ProfesorController;
 use Illuminate\Http\Request;
@@ -50,8 +51,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.index');
 
-        Route::resource('materias', MateriaController::class);                  // admin/materias
-        Route::resource('usuarios', UsuarioController::class);                  // admin/usuarios
+        Route::resource('materias', MateriaController::class);                // admin/materias
+        Route::resource('usuarios', UsuarioController::class);                // admin/usuarios
+        Route::resource('reportes', ReporteController::class);                // admin/reportes
     });
 
     // ==========================================

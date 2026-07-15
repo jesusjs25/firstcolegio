@@ -94,6 +94,15 @@
                 </a>
                 
             </li>
+
+            <li
+                class="sidebar-item ">
+                <a href="{{ route('reportes.index') }}" class='sidebar-link'>
+                    <i class="bi bi-graph-up"></i>
+                    <span>Reportes</span>
+                </a>
+                
+            </li>
             
             
             <li class="sidebar-title">Ajustes</li>
@@ -109,9 +118,6 @@
 
                 <li class="submenu-item ">
                     <a href="{{ url('/admin/profile') }}" class="submenu-link">Perfil</a>
-                </li>
-                <li class="submenu-item ">
-                    <a href="{{ url('/admin/security') }}" class="submenu-link">Seguridad</a>
                 </li>
                 <li class="submenu-item ">
                     <a href="{{ url('/logout') }}" class="submenu-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Cerrar Sesión</a>
