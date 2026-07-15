@@ -4,39 +4,63 @@ namespace App\Http\Controllers\Profesor;
 
 use App\Http\Controllers\Controller;
 use App\Models\Materia;
+use App\Models\Nota;
 use Illuminate\Support\Facades\Auth;
 
 class ProfesorController extends Controller
 {
-    /**
-     * Muestra la lista de materias asignadas al profesor logueado.
-     */
     public function index()
     {
-        // 1. Obtenemos el ID del profesor con la sesión activa
-        $teacherId = Auth::id();
+        $user = Auth::user();
+        $teacher = $user->teacher;
 
-        // 2. Consultamos las materias filtrando por teachers_id
-        // Usamos withCount('estudiantes') para obtener el total de alumnos
-        // vinculados en la tabla pivot Materia_student
-        $materias = Materia::where('teachers_id', $teacherId)
-            ->withCount('estudiantes') 
-            ->get();
+        // Notas recientes para el dashboard
+        $notasRecientes = Nota::where('teacher_id', $teacher->id)
+                              ->latest('created_at')
+                              ->take(5)
+                              ->with('student') 
+                              ->get();
 
-        // 3. Retornamos la vista con la colección de materias
+        // PASA AMBAS VARIABLES A LA VISTA
+        return view('profesor.index', compact('notasRecientes'));
+    }
+
+    public function materiasAsignadas()
+    {
+        $teacher = Auth::user()->teacher;
+
+        // Materias para tu acordeón o listado
+        $materias = $teacher->materias()->withCount('students')->get();
+
         return view('profesor.materias.index', compact('materias'));
     }
 
-    public function alumnosPorMateria($id){
-        $teacherId = Auth::id();
-        
-        // Obtenemos todas las materias para los acordeones
-        $materias = Materia::where('teachers_id', $teacherId)->get();
+    public function alumnosPorMateria($id) {
+        $teacher = Auth::user()->teacher;
 
-        // Buscamos la materia seleccionada o lanzamos error 404 si no existe
-        $materiaSeleccionada = Materia::where('teachers_id', $teacherId)
-            ->with('estudiantes')
+        $materias = $teacher->materias()->get();
+
+        // 1. Cargamos los estudiantes junto con sus notas
+        $materiaSeleccionada = $teacher->materias()
+            ->with(['students' => function($query) use ($id, $teacher) {
+                // Cargamos las notas de cada estudiante, pero filtradas por esta materia y este profesor
+                $query->with(['notas' => function($q) use ($id, $teacher) {
+                    $q->where('materia_id', $id)
+                    ->where('teacher_id', $teacher->id);
+                }]);
+            }])
             ->findOrFail($id);
+
+        // 2. Calculamos el promedio antes de enviar a la vista
+        foreach ($materiaSeleccionada->students as $student) {
+            // Obtenemos la colección de notas filtradas
+            $notas = $student->notas;
+            
+            // Calculamos el promedio
+            $student->promedio = $notas->count() > 0 
+                ? $notas->avg('valor_nota') 
+                : 0;
+        }
 
         return view('profesor.alumnos.index', compact('materias', 'materiaSeleccionada'));
     }

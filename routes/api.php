@@ -10,6 +10,13 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::post('/login', [AuthController::class, 'login']);
-
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout']);
+});
 Route::get('/users', [UserController::class, 'index']);
 Route::get('/users/{user}', [UserController::class, 'show']);
+// En routes/api.php puedes probar esto temporalmente:
+Route::get('/prueba', function () {
+    return response()->json(['mensaje' => 'Conexión exitosa'])
+        ->header('Access-Control-Allow-Origin', '*');
+});

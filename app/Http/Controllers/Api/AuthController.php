@@ -39,4 +39,18 @@ class AuthController extends Controller
             ]
         ]);
     }
+
+    public function logout(Request $request) {
+        // Si no hay usuario autenticado, retornamos error 401 (No autorizado)
+        // o simplemente un 200 para que la app igual borre el token local
+        $user = $request->user();
+        
+        if (!$user) {
+            return response()->json(['message' => 'Usuario no encontrado'], 401);
+        }
+
+        $user->currentAccessToken()->delete();
+
+        return response()->json(['message' => 'Sesión cerrada'], 200);
+    }
 }

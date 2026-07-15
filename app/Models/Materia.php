@@ -15,47 +15,14 @@ class Materia extends Model
         'nombre',
         'descripcion',
     ];
-
-    // Atributos virtuales para compatibilidad con las vistas existentes.
-    /*public function getNameAttribute()
-    {
-        return $this->attributes['nombre'] ?? null;
-    }
-
-    public function setNameAttribute($value)
-    {
-        $this->attributes['nombre'] = $value;
-    }
-
-    public function getDescriptionAttribute()
-    {
-        return $this->attributes['descripcion'] ?? null;
-    }
-
-    public function setDescriptionAttribute($value)
-    {
-        $this->attributes['descripcion'] = $value;
-    }
-
-    public function getTeacherIdAttribute()
-    {
-        return $this->attributes['teachers_id'] ?? null;
-    }
-
-    public function setTeacherIdAttribute($value)
-    {
-        $this->attributes['teachers_id'] = $value;
-    }
-
-    public function profesor()
-    {
-        return $this->belongsTo(User::class, 'teachers_id');
-    }
-    */
-    public function students()
-    {
-        return $this->belongsToMany(User::class, 'materia_student', 'materia_id', 'student_id')->withPivot('teacher_id')->withTimestamps();
-    }
+    
+        public function students()
+        {
+            // Quitamos ->using(Materia_student::class) para evitar el error de instanciación
+            return $this->belongsToMany(Student::class, 'materia_student', 'materia_id', 'student_id')
+                        ->withPivot('teacher_id')
+                        ->withTimestamps();
+        }
 
         public function horarios() {
             return $this->hasMany(Schedule::class);

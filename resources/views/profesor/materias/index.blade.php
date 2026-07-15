@@ -45,7 +45,7 @@
                                                     <tr>
                                                         <td class="text-bold-500">{{ $materia->nombre }}</td>
                                                         <td>{{ $materia->descripcion ?? 'Sin descripción disponible' }}</td>
-                                                        <td>{{ $materia->estudiantes_count }}</td>
+                                                        <td>{{ $materia->students_count }}</td>
                                                         <td>
                                                             <a href="{{ route('alumnos.index', ['id' => $materia->id]) }}" class="btn btn-sm btn-primary">
                                                                 VER ALUMNOS
@@ -60,7 +60,7 @@
                             </div>
                         @empty
                             <div class="alert alert-light-info text-center">
-                                <p class="mb-0">No tienes materias asignadas todavía.</p>
+                                <p class="mb-0">No tienes materias asignadas actualmente.</p>
                             </div>
                         @endforelse
                     </div>

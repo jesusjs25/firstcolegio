@@ -20,7 +20,7 @@
             <div class="col-lg-5 col-12">
                 <div id="auth-left">
                     <div class="auth-logo">
-                        <a href="/"><img src="{{ asset('assets/compiled/svg/logo.svg') }}" alt="Logo"></a>
+                        <a href="/"><img src="{{ asset('assets/compiled/svg/logo-firstcolegio.svg') }}" alt="Logo"></a>
                     </div>
                     <h1 class="auth-title">Restablecer contraseña</h1>
                     <p class="auth-subtitle mb-5">Ingresa tu nueva clave de acceso para actualizar tu cuenta.</p>

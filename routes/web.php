@@ -6,13 +6,8 @@ use App\Http\Controllers\MateriaController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Profesor\ProfesorController;
+use App\Http\Controllers\Profesor\NotaController;
 use Illuminate\Http\Request;
-
-// --- RUTAS PÚBLICAS ---
-/*
-Route::get('/', function () {
-    return view('welcome');
-}); */
 
 Route::redirect('/', '/dashboard'); // Redirige la raíz al dashboard (que luego redirige según rol)
 
@@ -58,21 +53,20 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // SECCIÓN PROFESOR
     // ==========================================
     Route::middleware(['role:Profesor'])->prefix('profesor')->group(function () {
-        Route::get('/', function () {                                           // profesor/index
-            return view('profesor.index'); 
-        })->name('profesor.index');
-                Route::get('/materias-asignadas', [ProfesorController::class, 'index'])->name('profesor.materias.index');    // profesor/materias-asignadas
-                Route::get('/alumnos-por-materia/{id}', [ProfesorController::class, 'alumnosPorMateria'])->name('alumnos.index');   // profesor/alumnos-por-materia/{id}
-                Route::get('/gestionar-notas', function () {                    // profesor/promedios
-                    return view('profesor.notas.index'); 
-                })->name('profesor.notas.index');
+        Route::get('/', [ProfesorController::class, 'index'])->name('profesor.index');
+        Route::get('/materias-asignadas', [ProfesorController::class, 'materiasAsignadas'])->name('profesor.materias.index');    // profesor/materias-asignadas
+        Route::get('/alumnos-por-materia/{id}', [ProfesorController::class, 'alumnosPorMateria'])->name('alumnos.index');   // profesor/alumnos-por-materia/{id}
+        Route::get('/notas/{materia}/{student}', [NotaController::class, 'index'])->name('profesor.notas.index');                 //gestionar notas
+        Route::post('/notas/{materia}/{student}', [NotaController::class, 'store'])->name('profesor.notas.store');                 //guardar notas
+        Route::put('/notas/{materia}/{student}/{id}', [NotaController::class, 'update'])->name('profesor.notas.update');            //actualizar notas
+        Route::delete('/notas/{materia}/{student}/{id}', [NotaController::class, 'destroy'])->name('profesor.notas.destroy');          //eliminar notas
 
     });
 
     // ==========================================
     // SECCIÓN ALUMNO
     // ==========================================
-    Route::middleware(['auth'])->prefix('alumno')->group(function () { 
+    Route::middleware(['Auth'])->prefix('alumno')->group(function () { 
         Route::get('/', function () {
             // Asegúrate de crear esta vista en resources/views/alumno/index.blade.php
             return view('alumno.index'); 
@@ -84,37 +78,3 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 require __DIR__.'/auth.php';
-/*
-use App\Http\Controllers\ProfileController;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\MateriaController;
-use App\Http\Controllers\UsuarioController;
-
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
-
-Route::prefix('admin')->group(function () {
-    Route::get('/', function () {
-        return view('admin.index');
-    })->name('admin.index');
-    
-    // Otras rutas de administración aquí
-
-    Route::resource('materias', MateriaController::class)->middleware('auth');
-
-    Route::resource('usuarios', UsuarioController::class)->middleware('auth');
-});
-
-require __DIR__.'/auth.php';*/
-

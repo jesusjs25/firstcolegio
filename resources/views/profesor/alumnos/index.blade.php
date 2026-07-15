@@ -38,14 +38,13 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @forelse($materiaSeleccionada->estudiantes as $alumno)
+                                                    @forelse($materiaSeleccionada->students as $alumno)
                                                         <tr>
-                                                            <td>{{ $alumno->name }}</td>
-                                                            <td>{{ $alumno->cedula ?? 'Sin documento' }}</td>
-                                                            <td>0.0</td> <td>
-                                                                <a href="{{ route('profesor.notas.index') }}" class="btn btn-sm btn-outline-primary">VER</a>
-                                                                <span class="mx-1">|</span>
-                                                                <a href="{{ route('profesor.notas.index') }}" class="btn btn-sm btn-success">NOTAS</a>
+                                                            <td>{{ $alumno->user->name }}</td>
+                                                            <td>{{ $alumno->document ?? 'Sin documento' }}</td>
+                                                            <td>{{ number_format($alumno->promedio, 2) }}</td>
+                                                            <td>
+                                                                <a href="{{ route('profesor.notas.index', [$materiaSeleccionada->id, $alumno->id]) }}" class="btn btn-sm btn-success">VER NOTAS</a>
                                                             </td>
                                                         </tr>
                                                     @empty

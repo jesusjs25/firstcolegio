@@ -23,7 +23,7 @@
             <div class="col-lg-5 col-12">
                 <div id="auth-left">
                     <div class="auth-logo">
-                        <a href="/"><img src="{{ asset('assets/compiled/svg/logo.svg') }}" alt="Logo"></a>
+                        <a href="/"><img src="{{ asset('assets/compiled/svg/logo-firstcolegio.svg') }}" alt="Logo"></a>
                     </div>
                     <h1 class="auth-title">Recuperar contraseña</h1>
                     <p class="auth-subtitle mb-5">Ingresa tu correo y te enviaremos un enlace para restablecer tu contraseña.</p>

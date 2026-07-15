@@ -23,7 +23,7 @@
     <div class="col-lg-5 col-12">
         <div id="auth-left">
             <div class="auth-logo">
-                <a href="index.html"><img src="./assets/compiled/svg/logo.svg" alt="Logo"></a>
+                <a href="index.html"><img src="./assets/compiled/svg/logo-firstcolegio.svg" alt="Logo"></a>
             </div>
             <h1 class="auth-title">Iniciar sesion</h1>
             <p class="auth-subtitle mb-5">Inicia sesion con los datos que proporcionaste durante el registro.</p>

@@ -12,7 +12,10 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        // Añadimos el soporte para CORS aquí
+        $middleware->append(\Illuminate\Http\Middleware\HandleCors::class);
+        
+        // Mantenemos tu configuración de Spatie
         $middleware->alias([
             'role' => \Spatie\Permission\Middleware\RoleMiddleware::class,
             'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,

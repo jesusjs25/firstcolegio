@@ -42,7 +42,7 @@
     <div class="sidebar-header position-relative">
         <div class="d-flex justify-content-between align-items-center">
             <div class="logo">
-                <a href="{{ url('/admin') }}">
+                <a href="{{ url('/profesor') }}">
                     {{-- <img src="{{ asset('assets/compiled/svg/logo.svg') }}" alt="Logo" srcset=""> --}}
                     First Colegio
                 </a>
@@ -102,30 +102,29 @@
                 
             </li>
 
-            <li
+            {{--<li
                 class="sidebar-item {{ request()->routeIs('alumnos.index') ? 'active' : '' }}">
-                <a href="{{-- route('alumnos.index') --}}#" class='sidebar-link'>
-                    <i class="bi bi-people-fill"></i>
+                <a href="{{ route('alumnos.index', ['id' => $materia->id]) }}" class='sidebar-link'>
+                    <i class="bi bi-book-half"></i>
                     <span>Alumnos por materia</span>
                 </a>
-                
-            </li>
+            </li>--}}
 
-            <li
+            {{-- <li
                 class="sidebar-item {{ request()->routeIs('profesor.notas.index') ? 'active' : '' }}">
                 <a href="{{ route('profesor.notas.index') }}" class='sidebar-link'>
                     <i class="bi bi-123"></i>
                     <span>Gestionar notas</span>
                 </a>
                 
-            </li>
+            </li> --}}
             
             
             <li class="sidebar-title">Ajustes</li>
 
             <li
                 class="sidebar-item has-sub">
-                <a href="{{ url('/admin') }}" class='sidebar-link'>
+                <a href="{{ url('/profesor') }}" class='sidebar-link'>
                     <i class="bi bi-person-circle"></i>
                     <span>{{ Auth::user()->email }}</span>
                 </a>
@@ -133,10 +132,7 @@
             <ul class="submenu ">
 
                 <li class="submenu-item ">
-                    <a href="{{ url('/admin/profile') }}" class="submenu-link">Perfil</a>
-                </li>
-                <li class="submenu-item ">
-                    <a href="{{ url('/admin/security') }}" class="submenu-link">Seguridad</a>
+                    <a href="{{ route('profile.edit') }}" class="submenu-link">Perfil</a>
                 </li>
                 <li class="submenu-item ">
                     <a href="{{ url('/logout') }}" class="submenu-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Cerrar Sesión</a>
@@ -172,10 +168,6 @@
     <div class="footer clearfix mb-0 text-muted">
         <div class="float-start">
             <p>2026 &copy; First Colegio</p>
-        </div>
-        <div class="float-end">
-            <p>Crafted with <span class="text-danger"><i class="bi bi-heart-fill icon-mid"></i></span>
-                by <a href="https://saugi.me">Saugi</a></p>
         </div>
     </div>
 </footer>
