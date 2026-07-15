@@ -7,72 +7,102 @@
     <div class="page-title">
         <div class="row">
             <div class="col-12 col-md-6 order-md-1 order-last">
-                <h3>Mis Notas - <span class="text-primary">{{ $materia->nombre ?? 'Materia' }}</span></h3>
-                <p class="text-subtitle text-muted">Ruta: /alumno/notas/{materia}</p>
+                <h3>Calificaciones Generales</h3>
+                <p class="text-subtitle text-muted">Consulta directa de tus notas y rendimientos del periodo actual.</p>
             </div>
         </div>
     </div>
 
     <section class="section mt-4">
-        <!-- Tabla de Calificaciones -->
-        <div class="card">
-            <div class="card-header">
-                <h4 class="card-title">Cortes del Periodo</h4>
+        <div class="card shadow-sm">
+            <div class="card-header bg-transparent py-3">
+                <h4 class="card-title mb-0">Rendimiento por Materia</h4>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-striped mb-0">
+                    <table class="table table-striped table-hover mb-0">
                         <thead>
                             <tr>
-                                <th>Evaluación</th>
-                                <th>Nota</th>
-                                <th>Fecha</th>
+                                <th>Materia</th>
                                 <th>Profesor</th>
+                                <th class="text-center">Promedio Actual</th>
+                                <th class="text-center">Estado</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @isset($evaluaciones)
-                                @foreach($evaluaciones as $evaluacion)
+                            @if(isset($materias_notas) && count($materias_notas) > 0)
+                                @foreach($materias_notas as $item)
                                 <tr>
-                                    <td class="text-bold-500">{{ $evaluacion->nombre }}</td>
-                                    <td class="fw-bold text-primary">{{ $evaluacion->nota }}</td>
-                                    <td>{{ $evaluacion->fecha }}</td>
-                                    <td>{{ $evaluacion->profesor }}</td>
+                                    <td class="text-bold-500 fw-bold text-dark">{{ $item->nombre }}</td>
+                                    <td>{{ $item->profesor->name ?? 'Docente asignado' }}</td>
+                                    <td class="text-center fw-bold {{ ($item->promedio ?? 0) >= 10 ? 'text-success' : 'text-danger' }}">
+                                        {{ number_format($item->promedio ?? 0, 2) }}
+                                    </td>
+                                    <td class="text-center">
+                                        @if(($item->estado ?? '') == 'Aprobado')
+                                            <span class="badge bg-light-success text-success fw-bold px-3 py-1 rounded-pill">Aprobado</span>
+                                        @elseif(($item->estado ?? '') == 'Reprobado')
+                                            <span class="badge bg-light-danger text-danger fw-bold px-3 py-1 rounded-pill">Reprobado</span>
+                                        @else
+                                            <span class="badge bg-light-warning text-warning fw-bold px-3 py-1 rounded-pill">Cursando</span>
+                                        @endif
+                                    </td>
                                 </tr>
                                 @endforeach
                             @else
+                                {{-- Registro simulado por si aún no conectas tu controlador --}}
                                 <tr>
-                                    <td colspan="4" class="text-center text-muted py-4">No hay registros de evaluaciones para esta asignatura.</td>
+                                    <td class="text-bold-500 fw-bold text-dark">Matemáticas I</td>
+                                    <td>Prof. Carlos Mendoza</td>
+                                    <td class="text-center fw-bold text-success">16.50</td>
+                                    <td class="text-center">
+                                        <span class="badge bg-light-success text-success fw-bold px-3 py-1 rounded-pill">Aprobado</span>
+                                    </td>
                                 </tr>
-                            @endisset
+                                <tr>
+                                    <td class="text-bold-500 fw-bold text-dark">Historia Universal</td>
+                                    <td>Profra. Elena Gómez</td>
+                                    <td class="text-center fw-bold text-success">14.00</td>
+                                    <td class="text-center">
+                                        <span class="badge bg-light-success text-success fw-bold px-3 py-1 rounded-pill">Aprobado</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-bold-500 fw-bold text-dark">Física Avanzada</td>
+                                    <td>Prof. Andrés Silva</td>
+                                    <td class="text-center fw-bold text-danger">09.00</td>
+                                    <td class="text-center">
+                                        <span class="badge bg-light-danger text-danger fw-bold px-3 py-1 rounded-pill">Reprobado</span>
+                                    </td>
+                                </tr>
+                            @endif
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
 
-        <!-- Sección Resumen -->
         <div class="row mt-4">
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-header bg-light-info py-3">
-                        <h5 class="card-title mb-0 text-info">Resumen</h5>
+            <div class="col-md-6 col-12">
+                <div class="card border-start border-primary border-4 shadow-sm">
+                    <div class="card-header bg-light-primary py-3">
+                        <h5 class="card-title mb-0 text-primary">Resumen Global</h5>
                     </div>
                     <div class="card-body pt-3">
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item d-flex justify-content-between align-items-center px-0">
-                                <span>Promedio de la materia</span>
-                                <span class="badge bg-info rounded-pill fw-bold">{{ $promedio_materia ?? '0.0' }}</span>
+                            <li class="list-group-item d-flex justify-content-between align-items-center px-0 bg-transparent">
+                                <span class="text-secondary font-semibold">Promedio General Acumulado</span>
+                                <span class="badge bg-primary rounded-pill fw-bold" style="font-size: 0.9rem;">
+                                    {{ number_format($promedio_general ?? 13.16, 2) }}
+                                </span>
                             </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center px-0">
-                                <span>Estado</span>
-                                @if(isset($estado_materia) && $estado_materia == 'Aprobado')
-                                    <span class="badge bg-light-success text-success fw-bold px-3 py-2">Aprobado</span>
-                                @elseif(isset($estado_materia) && $estado_materia == 'Reprobado')
-                                    <span class="badge bg-light-danger text-danger fw-bold px-3 py-2">Reprobado</span>
-                                @else
-                                    <span class="badge bg-light-secondary text-secondary fw-bold px-3 py-2">Cursando</span>
-                                @endif
+                            <li class="list-group-item d-flex justify-content-between align-items-center px-0 bg-transparent">
+                                <span class="text-secondary font-semibold">Materias Aprobadas</span>
+                                <span class="badge bg-success rounded-pill fw-bold">2</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center px-0 bg-transparent">
+                                <span class="text-secondary font-semibold">Materias Reprobadas</span>
+                                <span class="badge bg-danger rounded-pill fw-bold">1</span>
                             </li>
                         </ul>
                     </div>
