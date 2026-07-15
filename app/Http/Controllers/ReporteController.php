@@ -1,0 +1,85 @@
+<?php
+namespace App\Http\Controllers;
+
+use App\Models\Reporte;
+use Illuminate\Http\Request;
+use App\Models\Nota; // Asegúrate de tener creado tu modelo Nota
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
+
+
+class ReporteController extends Controller
+{
+    public function index()
+    {
+        $añoActual = Carbon::now()->year;
+
+        // --- 1. GRÁFICA DE TORTA (PIE): Distribución de rendimiento ---
+        // Clasificación estándar de calificaciones
+        $rangoDeficiente = DB::table('notas')->where('valor_nota', '<', 10)->count();
+        $rangoRegular = DB::table('notas')->whereBetween('valor_nota', [10, 14.99])->count();
+        $rangoExcelente = DB::table('notas')->where('valor_nota', '>=', 15)->count();
+
+
+        // --- 2. GRÁFICA DE BARRAS: Aprobados vs Reprobados (Umbral >= 10) ---
+        $aprobados = DB::table('notas')->where('valor_nota', '>=', 10)->count();
+        $reprobados = DB::table('notas')->where('valor_nota', '<', 10)->count();
+
+
+        // --- 3. GRÁFICA DE LÍNEAS/BARRAS: Evolución de Promedio Mensual ---
+        $promedioMeses = DB::table('notas')
+            ->select(
+                DB::raw("MONTH(created_at) as mes"),
+                DB::raw("AVG(valor_nota) as promedio")
+            )
+            ->whereYear('created_at', $añoActual)
+            ->groupBy('mes')
+            ->orderBy('mes', 'asc')
+            ->get();
+
+        $mesesNombres = [
+            1 => 'Ene', 2 => 'Feb', 3 => 'Mar', 4 => 'Abr', 5 => 'May', 6 => 'Jun',
+            7 => 'Jul', 8 => 'Ago', 9 => 'Sep', 10 => 'Oct', 11 => 'Nov', 12 => 'Dic'
+        ];
+        
+        $labelsMeses = [];
+        $datosMeses = [];
+        foreach ($promedioMeses as $item) {
+            $labelsMeses[] = $mesesNombres[$item->mes] ?? 'Mes ' . $item->mes;
+            $datosMeses[] = round($item->promedio, 2);
+        }
+
+
+        // --- 4. NUEVO REPORTE: Promedio de Notas por Materia (¡Súper útil!) ---
+        // Hacemos un JOIN con la tabla 'materias' para mostrar los nombres reales de las asignaturas
+        $promedioMaterias = DB::table('notas')
+            ->join('materias', 'notas.materia_id', '=', 'materias.id')
+            ->select(
+                'materias.nombre as materia', // Ajusta 'nombre' si la columna de tu tabla se llama distinto (ej. nombre_materia)
+                DB::raw("AVG(notas.valor_nota) as promedio")
+            )
+            ->groupBy('materias.id', 'materias.nombre')
+            ->get();
+
+        $labelsMaterias = [];
+        $datosMaterias = [];
+        foreach ($promedioMaterias as $item) {
+            $labelsMaterias[] = $item->materia;
+            $datosMaterias[] = round($item->promedio, 2);
+        }
+
+
+        // Retornamos todas las variables compactadas a la vista
+        return view('admin.reportes.index', compact(
+            'rangoDeficiente', 
+            'rangoRegular', 
+            'rangoExcelente',
+            'aprobados', 
+            'reprobados',
+            'labelsMeses', 
+            'datosMeses',
+            'labelsMaterias', 
+            'datosMaterias'
+        ));
+    }
+}

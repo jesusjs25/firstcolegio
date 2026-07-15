@@ -64,6 +64,8 @@ class DatabaseSeeder extends Seeder
             'birth_date' => '2005-05-15'
         ]);
 
+        $this->call(NotaSeeder::class);
+
         // User::factory(10)->create();
 
         /*User::factory()->create([
