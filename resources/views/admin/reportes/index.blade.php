@@ -72,8 +72,15 @@
             </div>
         </div>
 
+        <div class="d-flex justify-content-end mb-4">
+            <a href="{{ route('admin.reportes.exportar') }}" class="btn btn-success d-inline-flex align-items-center gap-2 font-weight-bold shadow-sm">
+                <i class="bi bi-file-earmark-excel-fill"></i>
+                <span>Exportar a Excel</span>
+            </a>
+        </div>
     </div>
 </div>
+
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -192,4 +199,11 @@
 
     });
 </script>
+
+@push('scripts')
+    <script src="{{ asset('assets/static/js/components/dark.js') }}"></script>
+    <script src="{{ asset('assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
+    <script src="{{ asset('assets/compiled/js/app.js') }}"></script>
+@endpush
+
 @endsection

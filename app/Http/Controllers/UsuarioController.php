@@ -62,13 +62,13 @@ class UsuarioController extends Controller
                 'birth_date' => $request->birth_date,
             ]);
         } elseif ($request->role === 'Profesor') {
-            $specialtiesString = $request->has('specialty')
+            $specialties = is_array($request->specialty)
                 ? implode(',', $request->specialty)
-                : null;
+                : $request->specialty;
         
             Teacher::create([
                 'user_id'   => $usuario->id,
-                'specialty' => $specialtiesString,
+                'specialty' => $specialties,
             ]);
         }
 

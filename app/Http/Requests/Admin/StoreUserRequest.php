@@ -28,7 +28,7 @@ class StoreUserRequest extends FormRequest
             'role' => 'required|in:Admin,Profesor,Alumno',
             'document'   => 'required_if:role,Alumno|nullable|digits:8|unique:students,document',
             'birth_date' => 'required_if:role,Alumno|nullable|date',
-            'specialty'  => 'required_if:role,Profesor|nullable|string',
+            'specialty'  => 'required_if:role,Profesor|nullable|array',
         ];
     }
 }

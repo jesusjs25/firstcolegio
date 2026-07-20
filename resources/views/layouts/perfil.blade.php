@@ -94,6 +94,15 @@
                 
             </li>
             
+            <li
+                class="sidebar-item ">
+                <a href="{{ route('reportes.index') }}" class='sidebar-link'>
+                    <i class="bi bi-graph-up"></i>
+                    <span>Reportes</span>
+                </a>
+                
+            </li>
+            
             
             <li class="sidebar-title">Ajustes</li>
 
@@ -109,9 +118,7 @@
                 <li class="submenu-item ">
                     <a href="{{ url('/profile') }}" class="submenu-link">Perfil</a>
                 </li>
-                <li class="submenu-item ">
-                    <a href="{{ url('/admin/security') }}" class="submenu-link">Seguridad</a>
-                </li>
+
                 <li class="submenu-item ">
                     <a href="{{ url('/logout') }}" class="submenu-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Cerrar Sesión</a>
                     <form id="logout-form" action="{{ url('/logout') }}" method="POST" 
@@ -119,13 +126,13 @@
                         @csrf
                         @method('POST')
                     </form>
-
             </li>
         </ul>
     </div>
 </div>
         </div>
         <div id="main">
+            @yield('content')
             <header class="mb-3">
                 <a href="#" class="burger-btn d-block d-xl-none">
                     <i class="bi bi-justify fs-3"></i>
@@ -135,7 +142,6 @@
 <div class="page-heading">
     <div class="page-title">
         <div class="row">
-            @yield('content')
         </div>
     </div>
 </div>

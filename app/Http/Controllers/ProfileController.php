@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
@@ -26,13 +27,31 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        $user = $request->user();
+        
+        // Rellenar con los campos validados (nombre, correo, etc.)
+        $user->fill($request->validated());
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+        if ($user->isDirty('email')) {
+            $user->email_verified_at = null;
         }
 
-        $request->user()->save();
+        // --- AQUÍ EMPIEZA NUESTRA LÓGICA DE LA FOTO ---
+        if ($request->hasFile('avatar')) {
+            // 1. Si ya tiene una foto anterior, la borramos para no llenar el disco de basura
+            if ($user->avatar) {
+                Storage::disk('public')->delete($user->avatar);
+            }
+
+            // 2. Guardamos la nueva foto en storage/app/public/avatars
+            $path = $request->file('avatar')->store('avatars', 'public');
+            
+            // 3. Asignamos la ruta al campo avatar del usuario
+            $user->avatar = $path;
+        }
+        // --- AQUÍ TERMINA ---
+
+        $user->save();
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reportes - First Colegio</title>
+    <title>Sistema - First Colegio</title>
     
     
     
@@ -69,7 +69,7 @@
             <li class="sidebar-title">Menu</li>
             
             <li
-                class="sidebar-item ">
+                class="sidebar-item  ">
                 <a href="{{ route('admin.index') }}" class='sidebar-link'>
                     <i class="bi bi-house-door-fill"></i>
                     <span>Inicio</span>
@@ -93,7 +93,7 @@
                 </a>
                 
             </li>
-
+            
             <li
                 class="sidebar-item active">
                 <a href="{{ route('reportes.index') }}" class='sidebar-link'>
@@ -118,6 +118,7 @@
                 <li class="submenu-item ">
                     <a href="{{ url('/profile') }}" class="submenu-link">Perfil</a>
                 </li>
+
                 <li class="submenu-item ">
                     <a href="{{ url('/logout') }}" class="submenu-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Cerrar Sesión</a>
                     <form id="logout-form" action="{{ url('/logout') }}" method="POST" 
@@ -125,16 +126,43 @@
                         @csrf
                         @method('POST')
                     </form>
-
             </li>
         </ul>
     </div>
 </div>
         </div>
         <div id="main">
+            @yield('content')
             <header class="mb-3">
                 <a href="#" class="burger-btn d-block d-xl-none">
                     <i class="bi bi-justify fs-3"></i>
                 </a>
             </header>
-            @yield('content')
+            
+<div class="page-heading">
+    <div class="page-title">
+        <div class="row">
+        </div>
+    </div>
+</div>
+
+<footer>
+    <div class="footer clearfix mb-0 text-muted">
+        <div class="float-start">
+            <p>2023 &copy; Mazer</p>
+        </div>
+        <div class="float-end">
+            <p>Crafted with <span class="text-danger"><i class="bi bi-heart-fill icon-mid"></i></span>
+                by <a href="https://saugi.me">Saugi</a></p>
+        </div>
+    </div>
+</footer>
+        </div>
+    </div>
+    <script src="assets/static/js/components/dark.js"></script>
+    <script src="assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+    <script src="assets/compiled/js/app.js"></script>
+    
+</body>
+
+</html>

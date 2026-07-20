@@ -2,8 +2,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Reporte;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use Illuminate\Http\Request;
 use App\Models\Nota; // Asegúrate de tener creado tu modelo Nota
+use App\Models\User; // Asegúrate de tener creado tu modelo Alumno
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
@@ -63,11 +65,11 @@ class ReporteController extends Controller
 
         $labelsMaterias = [];
         $datosMaterias = [];
+
         foreach ($promedioMaterias as $item) {
             $labelsMaterias[] = $item->materia;
             $datosMaterias[] = round($item->promedio, 2);
         }
-
 
         // Retornamos todas las variables compactadas a la vista
         return view('admin.reportes.index', compact(
@@ -81,5 +83,72 @@ class ReporteController extends Controller
             'labelsMaterias', 
             'datosMaterias'
         ));
+    }
+
+    public function exportarExcel()
+{
+    $fileName = 'Reporte_Notas_Academica_' . date('Y-m-d') . '.xls';
+
+    // 1. Unimos 'notas' con 'students'
+    // 2. Unimos 'students' con 'users' para obtener el nombre y correo reales
+    $notas = DB::table('notas')
+        ->join('students', 'notas.student_id', '=', 'students.id')
+        ->join('users as estudiante', 'students.user_id', '=', 'estudiante.id')
+        ->leftJoin('materias', 'notas.materia_id', '=', 'materias.id')
+        ->select(
+            'estudiante.name as nombre_estudiante',
+            'estudiante.email as correo_estudiante',
+            'materias.nombre as materia',
+            'notas.nombre_nota',
+            'notas.valor_nota',
+            'notas.fecha_nota'
+        )
+        ->get();
+
+    return response()->streamDownload(function() use ($notas) {
+        echo '
+        <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
+        <head>
+            <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+            <style>
+                th { background-color: #117a8b; color: #ffffff; font-weight: bold; border: 1px solid #cccccc; padding: 6px; }
+                td { border: 1px solid #cccccc; padding: 6px; text-align: left; }
+                .centro { text-align: center; }
+            </style>
+        </head>
+        <body>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Estudiante</th>
+                        <th>Correo Estudiante</th>
+                        <th>Materia</th>
+                        <th>Evaluación</th>
+                        <th>Nota</th>
+                        <th>Fecha</th>
+                    </tr>
+                </thead>
+                <tbody>';
+
+        foreach ($notas as $nota) {
+            echo '<tr>';
+            echo '<td>' . htmlspecialchars($nota->nombre_estudiante) . '</td>';
+            echo '<td>' . htmlspecialchars($nota->correo_estudiante) . '</td>';
+            echo '<td>' . htmlspecialchars($nota->materia ?? 'Educación física') . '</td>';
+            echo '<td>' . htmlspecialchars($nota->nombre_nota) . '</td>';
+            echo '<td class="centro"><b>' . $nota->valor_nota . '</b></td>';
+            echo '<td class="centro">' . $nota->fecha_nota . '</td>';
+            echo '</tr>';
+        }
+
+        echo '
+                </tbody>
+            </table>
+        </body>
+        </html>';
+    }, $fileName, [
+        'Content-Type' => 'application/vnd.ms-excel; charset=utf-8',
+        'Content-Disposition' => "attachment; filename=\"$fileName\"",
+    ]);
     }
 }

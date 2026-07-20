@@ -143,7 +143,7 @@
 </div> 
 <div class="page-content"> 
     <section class="row">
-        <div class="col-12 col-lg-9">
+        <div class="col-12 col-xl-8">
             <div class="row">
                 <div class="col-6 col-lg-3 col-md-6">
                     <div class="card">
@@ -167,6 +167,7 @@
                     <div class="card"> 
                         <div class="card-body px-4 py-4-5">
                             <div class="row">
+                                <div class="col-12 col-xl-8"></div>
                                 <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-center ">
                                     <div class="stats-icon blue mb-2 d-flex align-items-center justify-content-center float-none mx-auto">
                                         <x-heroicon-s-pencil class="w-4 h-4 text-white"/>
@@ -197,6 +198,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="col-6 col-lg-3 col-md-6">
                     <div class="card">
                         <div class="card-body px-4 py-4-5">
@@ -215,181 +217,125 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h4>Estudiantes inscritos por mes</h4>
-                        </div>
-                        <div class="card-body">
-                            <div id="chart-profile-visit"></div>
-                        </div>
-                    </div>
-                </div>
+
+        <!-- Tu tarjeta de la gráfica -->
+        <div class="card">
+            <div class="card-header">
+                <h4>Estudiantes inscritos por mes</h4>
             </div>
-            <div class="row">
+            <div class="card-body">
+                <div id="chart-profile-visit"></div>
+            </div>
+        </div>
+
+    </div> <!-- 2. IMPORTANTE: Aquí cerramos la columna izquierda -->
+
                 <div class="col-12 col-xl-4">
                     <div class="card">
+                        <div class="card-body py-4 px-4">
+                            <div class="d-flex align-items-center">
+                                <div class="avatar avatar-xl">
+                                    @if(auth()->user()->avatar)
+                                        <!-- Muestra la foto de perfil real si el usuario subió una -->
+                                        <img src="{{ asset('storage/' . auth()->user()->avatar) }}" alt="Avatar" style="object-fit: cover;">
+                                    @else
+                                        <!-- Si no tiene foto, dejamos una imagen por defecto o la del gato como fallback provisional -->
+                                        <img src="{{ asset('assets/compiled/jpg/usuario.jpg') }}" alt="Avatar por defecto">
+                                    @endif
+                                </div>
+                                <div class="ms-3 name">
+                                    <h5 class="font-bold">{{ auth()->user()->name }}</h5>
+                                    <h6 class="font-bold">{{ auth()->user()->email }}</h6>
+                                    <p class="font-bold">Rol: Administrador</p>
+                                    <p class="font-bold">Último acceso: {{ auth()->user()->updated_at }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
                         <div class="card-header">
-                            <h4>Promedio general por curso</h4>
+                            <h4>Nuevos Usuarios</h4>
                         </div>
                         <div class="card-body">
-                            <div class="row">
-                                <div class="col-7">
-                                    <div class="d-flex align-items-center">
-                                        <svg class="bi text-primary" width="32" height="32" fill="blue"
-                                            style="width:10px">
-                                            <use
-                                                xlink:href="assets/static/images/bootstrap-icons.svg#circle-fill" />
-                                        </svg>
-                                        <h5 class="mb-0 ms-3">1° A </h5>
-                                    </div>
-                                </div>
-                                <div class="col-5">
-                                    <h5 class="mb-0 text-end">8.5</h5>
-                                </div>
-                                <div class="col-12">
-                                    <div id="chart-europe"></div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-7">
-                                    <div class="d-flex align-items-center">
-                                        <svg class="bi text-success" width="32" height="32" fill="blue"
-                                            style="width:10px">
-                                            <use
-                                                xlink:href="assets/static/images/bootstrap-icons.svg#circle-fill" />
-                                        </svg>
-                                        <h5 class="mb-0 ms-3">2° A </h5>
-                                    </div>
-                                </div>
-                                <div class="col-5">
-                                    <h5 class="mb-0 text-end">7.9</h5>
-                                </div>
-                                <div class="col-12">
-                                    <div id="chart-america"></div> {{-- Aqui deberia estar el id del grado correspondiente, pero el id se mantiene finajo a la clave "indonesia" por alguna razon, revisar el codigo de dashboard.js para corregir esto. Lo mismo pasa con los id posteriores a este --}}
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-7">
-                                    <div class="d-flex align-items-center">
-                                        <svg class="bi text-danger" width="32" height="32" fill="blue"
-                                            style="width:10px">
-                                            <use
-                                                xlink:href="assets/static/images/bootstrap-icons.svg#circle-fill" />
-                                        </svg>
-                                        <h5 class="mb-0 ms-3">3° A </h5>
-                                    </div>
-                                </div>
-                                <div class="col-5">
-                                    <h5 class="mb-0 text-end">9.1</h5>
-                                </div>
-                                <div class="col-12">
-                                    <div id="chart-indonesia"></div> 
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-xl-8">
-                    <div class="card">
-                    <div class="card-body">
-                        <h4>Actividades del Sistema</h4>
-                    <div class="table-responsive">
-                    <table class="table table-borderless">
-                <thead>
-                <tr>
-                    <th class="col-6">Name</th>
-                    <th class="col-6">Comment</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($actividadesSistema as $actividad)
-                <tr>
-                    <td class="col-6">
-                        <div class="d-flex align-items-center">
-                            <div class="avatar avatar-md">
-                                <img src="https://ui-avatars.com/api/?name={{ urlencode($actividad->user->name) }}&background=random">
-                            </div>
-                            <p class="font-bold ms-3 mb-0">{{ $actividad->user->name }}</p>
-                        </div>
-                    </td>
-                    <td class="col-6">
-                        <p class="mb-0">
-                            <span class="badge 
-                                {{ $actividad->action == 'eliminó' ? 'bg-danger' : 
-                                    ($actividad->action == 'actualizó' || $actividad->action == 'editó' ? 'bg-warning text-dark' : 'bg-success') }}" 
-                                style="font-size: 0.7rem;">
-                                {{ ucfirst($actividad->action) }}
-                            </span>
-                            el registro de <b>{{ $actividad->model }}</b>: {{ $actividad->description }}
-                        </p>
-                        <small class="text-muted">{{ $actividad->created_at->diffForHumans() }}</small>
-                            </td>
-                            </tr>
-                            @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-            </div>
-        </div>
-        <div class="col-12 col-lg-3">
-            <div class="card">
-                <div class="card-body py-4 px-4">
-                    <div class="d-flex align-items-center">
-                        <div class="avatar avatar-xl">
-                            <img src="./assets/compiled/jpg/gato.jpg" alt="Face 1">
-                        </div>
-                        <div class="ms-3 name">
-                            <h5 class="font-bold">{{ auth()->user()->name }}</h5>
-                            <h6 class="font-bold">{{ auth()->user()->email }}</h6>
-                            <p class="font-bold">Rol: Administrador</p>
-                            <p class="font-bold">Último acceso: {{ auth()->user()->updated_at }}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-header">
-                    <h4>Nuevos Usuarios</h4>
-                </div>
-                <div class="card-body">
-                    @foreach ($nuevosUsuarios as $usuario)
-                        <div class="recent-message d-flex px-4 py-3">
-                            <div class="avatar avatar-lg">
-                                <img src="./assets/compiled/jpg/4.jpg" alt="Face 1">
-                            </div>
-                            <div class="name ms-4">
-                                <h5 class="mb-1">{{ $usuario->name }}</h5>
-                                <h6 class="text-muted mb-0">{{ $usuario->email }}</h6>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-            </div> 
-            <div class="card">
-                <div class="card-header">
-                    <h4>Distribución de Estudiantes</h4>
-                </div>
-                <div class="card-body">
-                    <div id="chart-visitors-profile"></div>
-                </div>
-            </div>
-        </div>
-    </section>
+                            @foreach ($nuevosUsuarios as $usuario)
+                                <div class="recent-message d-flex px-4 py-3">
+                                    <div class="avatar avatar-xl">
+    @if($usuario->avatar)
+        <!-- Muestra la foto de perfil real si el usuario subió una -->
+        <img src="{{ asset('storage/' . $usuario->avatar) }}" alt="Avatar" style="object-fit: cover;">
+    @else
+        <!-- Si no tiene foto, dejamos una imagen por defecto -->
+        <img src="{{ asset('assets/compiled/jpg/banana.jpg') }}" alt="Avatar por defecto">
+    @endif
 </div>
+                                    <div class="name ms-4">
+                                        <h5 class="mb-1">{{ $usuario->name }}</h5>
+                                        <h6 class="text-muted mb-0">{{ $usuario->email }}</h6>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
 
-            <footer>
+                <div class="col-12 mt-2">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Actividades del Sistema</h4>
+                        </div>
+                    
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table mb-0">
+                    <thead>
+                        <tr>
+                            <th class="col-6">Usuario</th>
+                            <th class="col-6-border-start border-secondary-subtle">Accion</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($actividadesSistema as $actividad)
+                            <tr>
+                                <td class="col-6">
+                                    <div class="d-flex align-items-center">
+                                        <div class="avatar avatar-md">
+                                            @if($actividad->user && $actividad->user->avatar)
+                                                <img src="{{ asset('storage/' . $actividad->user->avatar) }}" alt="Avatar" style="object-fit: cover;">
+                                            @else
+                                                <img src="{{ asset('assets/compiled/jpg/banana.jpg') }}" alt="Avatar por defecto">
+                                            @endif
+                                        </div>
+                                        <p class="font-bold ms-3 mb-0">{{ $actividad->user->name }}</p>
+                                    </div>
+                                </td>
+                                <td class="col-6-border-start border-secondary-subtle">
+                                    <p class="mb-0">
+                                        <span class="badge 
+                                            {{ $actividad->action == 'eliminó' ? 'bg-danger' : 
+                                            ($actividad->action == 'actualizó' || $actividad->action == 'editó' ? 'bg-warning text-dark' : 'bg-success') }}" 
+                                            style="font-size: 0.7rem;">
+                                            {{ ucfirst($actividad->action) }}
+                                        </span>
+                                        el registro de <b>{{ $actividad->model }}</b>: {{ $actividad->description }}
+                                    </p>
+                                    <small class="text-muted">{{ $actividad->created_at->diffForHumans() }}</small>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+
+
+<footer>
     <div class="footer clearfix mb-0 text-muted">
         <div class="float-start">
             <p>2026 &copy; First Colegio</p>
-        </div>
-        <div class="float-end">
-            <p>Crafted with <span class="text-danger"><i class="bi bi-heart-fill icon-mid"></i></span>
-                by <a href="https://saugi.me">Saugi</a></p>
         </div>
     </div>
 </footer>

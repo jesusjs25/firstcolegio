@@ -49,6 +49,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::resource('materias', MateriaController::class);                // admin/materias
         Route::resource('usuarios', UsuarioController::class);                // admin/usuarios
         Route::resource('reportes', ReporteController::class);                // admin/reportes
+        Route::get('/admin/reportes/exportar', [ReporteController::class, 'exportarExcel'])->name('admin.reportes.exportar');
     });
 
     // ==========================================
