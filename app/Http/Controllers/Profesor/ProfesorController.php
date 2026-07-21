@@ -40,10 +40,8 @@ class ProfesorController extends Controller
 
         $materias = $teacher->materias()->get();
 
-        // 1. Cargamos los estudiantes junto con sus notas
         $materiaSeleccionada = $teacher->materias()
             ->with(['students' => function($query) use ($id, $teacher) {
-                // Cargamos las notas de cada estudiante, pero filtradas por esta materia y este profesor
                 $query->with(['notas' => function($q) use ($id, $teacher) {
                     $q->where('materia_id', $id)
                     ->where('teacher_id', $teacher->id);
@@ -51,15 +49,21 @@ class ProfesorController extends Controller
             }])
             ->findOrFail($id);
 
-        // 2. Calculamos el promedio antes de enviar a la vista
+        // Recalcular y asegurar que el promedio exista en la pivote para cada alumno
         foreach ($materiaSeleccionada->students as $student) {
-            // Obtenemos la colección de notas filtradas
             $notas = $student->notas;
-            
-            // Calculamos el promedio
-            $student->promedio = $notas->count() > 0 
-                ? $notas->avg('valor_nota') 
-                : 0;
+            $promedioFinal = $notas->count() > 0 ? $notas->avg('valor_nota') : 0;
+            $promedioFinal = (float) round($promedioFinal, 2);
+
+            // Actualizamos o sincronizamos la tabla pivote de una vez
+            \Illuminate\Support\Facades\DB::table('materia_student')
+                ->updateOrInsert(
+                    ['materia_id' => $id, 'student_id' => $student->id],
+                    ['promedio' => $promedioFinal]
+                );
+                
+            // Asignamos el valor al pivot para que la vista lo lea sin problemas
+            $student->pivot->promedio = $promedioFinal;
         }
 
         return view('profesor.alumnos.index', compact('materias', 'materiaSeleccionada'));

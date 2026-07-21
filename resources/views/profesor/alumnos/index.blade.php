@@ -42,7 +42,7 @@
                                                         <tr>
                                                             <td>{{ $alumno->user->name }}</td>
                                                             <td>{{ $alumno->document ?? 'Sin documento' }}</td>
-                                                            <td>{{ number_format($alumno->promedio, 2) }}</td>
+                                                            <td>{{ $alumno->pivot->promedio }}</td>
                                                             <td>
                                                                 <a href="{{ route('profesor.notas.index', [$materiaSeleccionada->id, $alumno->id]) }}" class="btn btn-sm btn-success">VER NOTAS</a>
                                                             </td>

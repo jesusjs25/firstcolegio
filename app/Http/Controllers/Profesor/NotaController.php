@@ -105,15 +105,30 @@ class NotaController extends Controller
 
     // Eliminar
         public function destroy($materia, $student, $id) {
-        // Opcional pero recomendado: buscar la nota validando que pertenezca 
-        // a esa materia y ese alumno, para mayor seguridad.
-        $nota = Nota::where('id', $id)
-                    ->where('materia_id', $materia)
-                    ->where('student_id', $student)
-                    ->firstOrFail();
+            // Opcional pero recomendado: buscar la nota validando que pertenezca 
+            // a esa materia y ese alumno, para mayor seguridad.
+            $nota = Nota::where('id', $id)
+                        ->where('materia_id', $materia)
+                        ->where('student_id', $student)
+                        ->firstOrFail();
 
-        $nota->delete();
+            $nota->delete();
 
-        return back()->with('success', 'Nota eliminada.');
+            return back()->with('success', 'Nota eliminada.');
+        }
+
+    private function actualizarPromedioPivote($materiaId, $studentId) {
+        // Obtenemos todas las notas de este estudiante en esta materia
+        $notas = \App\Models\Nota::where('materia_id', $materiaId)
+                                ->where('student_id', $studentId)
+                                ->get();
+
+        $promedioFinal = $notas->count() > 0 ? $notas->avg('valor_nota') : 0;
+
+        // Actualizamos el campo 'promedio' en la tabla pivote materia_student
+        \Illuminate\Support\Facades\DB::table('materia_student')
+            ->where('materia_id', $materiaId)
+            ->where('student_id', $studentId)
+            ->update(['promedio' => (float) round($promedioFinal, 2)]);
     }
 }
