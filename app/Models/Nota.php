@@ -12,6 +12,7 @@ class Nota extends Model
         'materia_id',
         'teacher_id',
         'nombre_nota',
+        'puntaje_maximo',
         'valor_nota',
         'fecha_nota',
     ];
