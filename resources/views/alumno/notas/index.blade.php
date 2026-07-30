@@ -1,7 +1,5 @@
 @extends('layouts.alumno')
 
-@section('title', 'Mis Notas')
-
 @section('content')
 <div class="page-heading">
     <div class="page-title">

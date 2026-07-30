@@ -67,13 +67,26 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     // ==========================================
-    // SECCIÓN ALUMNO
+    // SECCIÓN ALUMNO (SOLO LECTURA)
     // ==========================================
-    Route::middleware(['Auth'])->prefix('alumno')->group(function () { 
-        Route::get('/', function () {
-            // Asegúrate de crear esta vista en resources/views/alumno/index.blade.php
-            return view('alumno.index'); 
+    Route::middleware(['role:Alumno'])->prefix('alumno')->group(function () { 
+        // Redirección base /alumno a /alumno/dashboard
+        Route::get('/', function() {
+            return redirect()->route('alumno.dashboard');
         })->name('alumno.index');
+
+        // Vistas reales del alumno
+        Route::get('/dashboard', function () {
+            return view('alumno.index');
+        })->name('alumno.dashboard');
+
+        Route::get('/materias', function () {
+            return view('alumno.materias.index');
+        })->name('alumno.materias');
+
+        Route::get('/notas', function () {
+            return view('alumno.notas.index');
+        })->name('alumno.notas');
     });
         // Esto crea index, create, store, show, edit, update y destroy de un solo golpe
         Route::resource('admin/usuarios', UsuarioController::class)->names('admin.usuarios');
