@@ -97,6 +97,15 @@
 
             <li
                 class="sidebar-item ">
+                <a href="{{ route('historial.index') }}" class='sidebar-link'>
+                    <i class="bi bi-clock-history"></i>
+                    <span>Historial</span>
+                </a>
+                
+            </li>
+
+            <li
+                class="sidebar-item ">
                 <a href="{{ route('reportes.index') }}" class='sidebar-link'>
                     <i class="bi bi-graph-up"></i>
                     <span>Reportes</span>

@@ -1,25 +1,28 @@
 @extends ('layouts.reportes')
 
 @section('content')
-<div class="container-fluid py-4" style="background-color: #f8f9fa; min-height: 100vh;">
-    
-    <div class="card shadow-sm mb-4" style="border: none; border-radius: 10px;">
-        <div class="card-body text-white" style="background: linear-gradient(135deg, #17a2b8, #117a8b); border-radius: 10px; padding: 25px;">
+<div class="container-fluid py-4" style="background-color: #0f172a00; min-height: 100vh; color: #f8fafc;">
+
+    <!-- Banner Superior -->
+    <div class="card shadow-sm mb-4" style="border: none; border-radius: 10px; background-color: transparent;">
+        <div class="card-body text-white" style="background: linear-gradient(135deg, #1a2b80, #11a8be); border-radius: 10px; padding: 25px;">
             <div class="row align-items-center">
                 <div class="col-md-8">
-                    <h3 class="m-0 font-weight-bold" style="font-size: 1.6rem; letter-spacing: 0.5px;">Reportes Académicos</h3>
-                    <p class="m-0 text-white-50 mt-1">Monitoreo en tiempo real del rendimiento estudiantil, materias y calificaciones globales.</p>
+                    <h3 class="m-0 font-weight-bold" style="font-size: 1.6rem; letter-spacing: 0.5px; color: #ffffff !important">Reportes Académicos</h3>
+                    <p class="m-0 mt-1" style="color: rgba(255, 255, 255, 0.65) !important;"">Monitoreo en tiempo real del rendimiento estudiantil, materias y calificaciones globales.</p>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Sección de Gráficas -->
     <div class="row mb-4">
-        
+
+        <!-- Gráfica 1 -->
         <div class="col-xl-6 col-lg-6 mb-4">
-            <div class="card shadow-sm h-100" style="border: none; border-radius: 10px;">
-                <div class="card-header bg-white py-3" style="border-bottom: 1px solid #f1f1f1; border-top-left-radius: 10px; border-top-right-radius: 10px;">
-                    <h6 class="m-0 font-weight-bold text-secondary" style="font-size: 1rem;">Distribución General de Rendimiento</h6>
+            <div class="card shadow-sm h-100" style="border: 1px solid #334155; border-radius: 10px; background-color: #1e293b;">
+                <div class="card-header py-3" style="background-color: #1e293b; border-bottom: 1px solid #334155; border-top-left-radius: 10px; border-top-right-radius: 10px;">
+                    <h6 class="m-0 font-weight-bold" style="font-size: 1rem; color: #f1f5f9;">Distribución General de Rendimiento</h6>
                 </div>
                 <div class="card-body d-flex flex-column justify-content-center" style="padding: 20px;">
                     <div style="position: relative; height: 280px; width: 100%;">
@@ -29,12 +32,14 @@
             </div>
         </div>
 
+        <!-- Gráfica 2 -->
         <div class="col-xl-6 col-lg-6 mb-4">
-            <div class="card shadow-sm h-100" style="border: none; border-radius: 10px;">
-                <div class="card-header bg-white py-3" style="border-bottom: 1px solid #f1f1f1; border-top-left-radius: 10px; border-top-right-radius: 10px;">
-                    <h6 class="m-0 font-weight-bold text-secondary" style="font-size: 1rem;">Tasa de Aprobación Global</h6>
+            <div class="card shadow-sm h-100" style="border: 1px solid #334155; border-radius: 10px; background-color: #1e293b;">
+                <div class="card-header py-3" style="background-color: #1e293b; border-bottom: 1px solid #334155; border-top-left-radius: 10px; border-top-right-radius: 10px;">
+                    <h6 class="m-0 font-weight-bold" style="font-size: 1rem; color: #f1f5f9;">Tasa de Aprobación Global</h6>
                 </div>
                 <div class="card-body d-flex flex-column justify-content-center" style="padding: 20px;">
+                    <!-- Canvas para la segunda gráfica -->
                     <div style="position: relative; height: 280px; width: 100%;">
                         <canvas id="doughnutAprobadosChart"></canvas>
                     </div>
@@ -45,11 +50,12 @@
     </div>
 
     <div class="row">
-        
+
+        <!-- Gráfica 3: Promedio de Notas por Materia -->
         <div class="col-xl-6 col-lg-6 mb-4">
-            <div class="card shadow-sm h-100" style="border: none; border-radius: 10px;">
-                <div class="card-header bg-white py-3" style="border-bottom: 1px solid #f1f1f1; border-top-left-radius: 10px; border-top-right-radius: 10px;">
-                    <h6 class="m-0 font-weight-bold text-secondary" style="font-size: 1rem;">Promedio de Notas por Materia</h6>
+            <div class="card shadow-sm h-100" style="border: 1px solid #334155; border-radius: 10px; background-color: #1e293b;">
+                <div class="card-header py-3" style="background-color: #1e293b; border-bottom: 1px solid #334155; border-top-left-radius: 10px; border-top-right-radius: 10px;">
+                    <h6 class="m-0 font-weight-bold" style="font-size: 1rem; color: #f1f5f9;">Promedio de Notas por Materia</h6>
                 </div>
                 <div class="card-body d-flex flex-column justify-content-center" style="padding: 20px;">
                     <div style="position: relative; height: 280px; width: 100%;">
@@ -59,10 +65,11 @@
             </div>
         </div>
 
+        <!-- Gráfica 4: Evolución del Promedio de Calificaciones -->
         <div class="col-xl-6 col-lg-6 mb-4">
-            <div class="card shadow-sm h-100" style="border: none; border-radius: 10px;">
-                <div class="card-header bg-white py-3" style="border-bottom: 1px solid #f1f1f1; border-top-left-radius: 10px; border-top-right-radius: 10px;">
-                    <h6 class="m-0 font-weight-bold text-secondary" style="font-size: 1rem;">Evolución del Promedio de Calificaciones</h6>
+            <div class="card shadow-sm h-100" style="border: 1px solid #334155; border-radius: 10px; background-color: #1e293b;">
+                <div class="card-header py-3" style="background-color: #1e293b; border-bottom: 1px solid #334155; border-top-left-radius: 10px; border-top-right-radius: 10px;">
+                    <h6 class="m-0 font-weight-bold" style="font-size: 1rem; color: #f1f5f9;">Evolución del Promedio de Calificaciones</h6>
                 </div>
                 <div class="card-body d-flex flex-column justify-content-center" style="padding: 20px;">
                     <div style="position: relative; height: 280px; width: 100%;">
@@ -72,12 +79,14 @@
             </div>
         </div>
 
-        <div class="d-flex justify-content-end mb-4">
-            <a href="{{ route('admin.reportes.exportar') }}" class="btn btn-success d-inline-flex align-items-center gap-2 font-weight-bold shadow-sm">
-                <i class="bi bi-file-earmark-excel-fill"></i>
-                <span>Exportar a Excel</span>
-            </a>
-        </div>
+    </div>
+
+    <!-- Botón de Exportar a Excel -->
+    <div class="d-flex justify-content-end mb-4">
+        <a href="{{ route('admin.reportes.exportar') }}" class="btn btn-success d-inline-flex align-items-center gap-2 font-weight-bold shadow-sm">
+            <i class="bi bi-file-earmark-excel-fill"></i>
+            <span>Exportar a Excel</span>
+        </a>
     </div>
 </div>
 
@@ -154,13 +163,29 @@
                     legend: { display: false }
                 },
                 scales: {
-                    y: { 
-                        beginAtZero: true,
-                        max: 20,
-                        ticks: { stepSize: 5 }
-                    }
-                }
+                    x: { 
+                        grid: {
+                color: 'rgba(255, 255, 255, 0.25)', // Líneas verticales más claras y visibles
+                borderColor: '#64748b'
+            },
+            ticks: {
+                color: '#cbd5e1'
             }
+        },
+        y: {
+            min: 0,
+            max: 20,
+            grid: {
+                color: 'rgba(255, 255, 255, 0.25)', // Líneas horizontales marcadas
+                borderColor: '#64748b'
+            },
+            ticks: {
+                stepSize: 5,
+                color: '#cbd5e1'
+            }
+        }
+    }
+}
         });
 
         // --- 4. GRÁFICO DE LÍNEA (EVOLUCIÓN MENSUAL) ---
@@ -188,13 +213,29 @@
                     legend: { display: false }
                 },
                 scales: {
-                    y: { 
-                        beginAtZero: true,
-                        max: 20,
-                        ticks: { stepSize: 5 }
-                    }
-                }
+                    x: { 
+                        grid: {
+                color: 'rgba(255, 255, 255, 0.25)', // Líneas verticales más claras y visibles
+                borderColor: '#64748b'
+            },
+            ticks: {
+                color: '#cbd5e1'
             }
+        },
+        y: {
+            min: 0,
+            max: 20,
+            grid: {
+                color: 'rgba(255, 255, 255, 0.25)', // Líneas horizontales marcadas
+                borderColor: '#64748b'
+            },
+            ticks: {
+                stepSize: 5,
+                color: '#cbd5e1'
+            }
+        }
+    }
+}
         });
 
     });
