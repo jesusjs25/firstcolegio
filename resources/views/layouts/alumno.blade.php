@@ -146,7 +146,7 @@
             </header>
             
 <div class="page-heading">
-    <h3>Panel de Estudinte</h3>
+    <h3>Panel de Estudiante</h3>
 </div> 
  <div class="page-content"> 
     <section class="row">
@@ -183,7 +183,7 @@
 </html>
 
 <a href="#" class='sidebar-link' 
-   onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
     <i class="bi bi-box-arrow-right"></i>
     <span>Cerrar Sesión</span>
     {{--@extends('layouts.app')--}}

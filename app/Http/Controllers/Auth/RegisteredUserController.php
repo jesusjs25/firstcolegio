@@ -34,6 +34,8 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'document' => ['required', 'string', 'max:50'],
+            'birth_date' => ['required', 'date'],
         ]);
 
         $user = User::create([
@@ -49,6 +51,8 @@ class RegisteredUserController extends Controller
         // 3. Crear el perfil en la tabla students si aplica
         \App\Models\Student::create([
             'user_id' => $user->id,
+            'document' => $request->document,
+            'birth_date' => $request->birth_date,
         ]);
 
         event(new Registered($user));

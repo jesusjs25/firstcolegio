@@ -46,11 +46,11 @@
 
                 <!-- Documento de Identidad -->
                 <div class="form-group position-relative has-icon-left mb-4">
-                    <input type="text" class="form-control form-control-xl @error('documento') is-invalid @enderror" placeholder="Documento de identidad" name="documento" value="{{ old('documento') }}" required>
+                    <input type="text" class="form-control form-control-xl @error('document') is-invalid @enderror" placeholder="Documento de identidad" name="document" value="{{ old('document') }}" required>
                     <div class="form-control-icon">
                         <i class="bi bi-card-heading"></i>
                     </div>
-                    @error('documento')
+                    @error('document')
                         <div class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
                         </div>
@@ -59,11 +59,11 @@
 
                 <!-- Fecha de Nacimiento -->
                 <div class="form-group position-relative has-icon-left mb-4">
-                    <input type="date" class="form-control form-control-xl @error('fecha_nacimiento') is-invalid @enderror" placeholder="Fecha de nacimiento" name="fecha_nacimiento" value="{{ old('fecha_nacimiento') }}" required>
+                    <input type="date" class="form-control form-control-xl @error('birth_date') is-invalid @enderror" placeholder="Fecha de nacimiento" name="birth_date" value="{{ old('birth_date') }}" required>
                     <div class="form-control-icon">
                         <i class="bi bi-calendar-date"></i>
                     </div>
-                    @error('fecha_nacimiento')
+                    @error('birth_date')
                         <div class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
                         </div>
