@@ -52,7 +52,7 @@ class ProfesorController extends Controller
         // Recalcular y asegurar que el promedio exista en la pivote para cada alumno
         foreach ($materiaSeleccionada->students as $student) {
             $notas = $student->notas;
-            $promedioFinal = $notas->count() > 0 ? $notas->avg('valor_nota') : 0;
+            $promedioFinal = $notas->count() > 0 ? $notas->sum('valor_nota') : 0;
             $promedioFinal = (float) round($promedioFinal, 2);
 
             // Actualizamos o sincronizamos la tabla pivote de una vez

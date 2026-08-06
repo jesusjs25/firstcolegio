@@ -29,6 +29,7 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        // 1. Crear usuario con rol base de Alumno
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
@@ -40,6 +41,14 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => 'Alumno',
+        ]);
+
+        // 2. Asignar rol con Spatie (Inserta en model_has_roles)
+        $user->assignRole('Alumno');
+
+        // 3. Crear el perfil en la tabla students si aplica
+        \App\Models\Student::create([
+            'user_id' => $user->id,
         ]);
 
         event(new Registered($user));
