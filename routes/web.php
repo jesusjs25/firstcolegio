@@ -71,7 +71,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // ==========================================
     // SECCIÓN ALUMNO
     // ==========================================
-    Route::middleware(['Auth'])->prefix('alumno')->group(function () { 
+    Route::middleware(['auth'])->prefix('alumno')->group(function () { 
         Route::get('/', function () {
             // Asegúrate de crear esta vista en resources/views/alumno/index.blade.php
             return view('alumno.index'); 

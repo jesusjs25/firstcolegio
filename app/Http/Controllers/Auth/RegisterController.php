@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Student;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -49,9 +50,11 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'name'             => ['required', 'string', 'max:255'],
+            'email'            => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password'         => ['required', 'string', 'min:8', 'confirmed'],
+            'documento'        => ['required', 'string', 'max:20', 'unique:students,document'],
+            'fecha_nacimiento' => ['required', 'date'],
         ]);
     }
 
@@ -63,10 +66,25 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
+    // 1. Crear el registro principal en la tabla 'users'
+    $user = User::create([
+        'name'     => $data['name'],
+        'email'    => $data['email'],
+        'password' => Hash::make($data['password']),
+    ]);
+
+    // 2. Asignar el rol (si estás usando Spatie Laravel-Permission)
+    if (isset($data['role'])) {
+        $user->assignRole($data['role']);
     }
+
+    // 3. Crear el registro en la tabla 'students' vinculado al id del usuario recién creado
+    Student::create([
+        'user_id'    => $user->id,
+        'document'   => $data['documento'],
+        'birth_date' => $data['fecha_nacimiento'],
+    ]);
+
+    return $user;
+}
 }

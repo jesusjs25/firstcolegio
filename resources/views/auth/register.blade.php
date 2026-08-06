@@ -41,8 +41,35 @@
                     <input type="text" class="form-control form-control-xl" placeholder="Nombre de usuario" name="name">
                     <div class="form-control-icon">
                         <i class="bi bi-person"></i>
-                    </div>
                 </div>
+                </div>
+
+                <!-- Documento de Identidad -->
+                <div class="form-group position-relative has-icon-left mb-4">
+                    <input type="text" class="form-control form-control-xl @error('documento') is-invalid @enderror" placeholder="Documento de identidad" name="documento" value="{{ old('documento') }}" required>
+                    <div class="form-control-icon">
+                        <i class="bi bi-card-heading"></i>
+                    </div>
+                    @error('documento')
+                        <div class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </div>
+                    @enderror
+                </div>
+
+                <!-- Fecha de Nacimiento -->
+                <div class="form-group position-relative has-icon-left mb-4">
+                    <input type="date" class="form-control form-control-xl @error('fecha_nacimiento') is-invalid @enderror" placeholder="Fecha de nacimiento" name="fecha_nacimiento" value="{{ old('fecha_nacimiento') }}" required>
+                    <div class="form-control-icon">
+                        <i class="bi bi-calendar-date"></i>
+                    </div>
+                    @error('fecha_nacimiento')
+                        <div class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </div>
+                    @enderror
+                </div>
+
                 <div class="form-group position-relative has-icon-left mb-4">
                     <input type="password" class="form-control form-control-xl" placeholder="Contraseña" name="password">
                     <div class="form-control-icon">
@@ -65,6 +92,17 @@
                     </div>
                     @enderror
                 </div>
+
+                <!-- Rol por Defecto (Estudiante) -->
+                <div class="form-group position-relative has-icon-left mb-4">
+                    <input type="text" class="form-control form-control-xl" value="Rol asignado: Alumno" readonly disabled>
+                    <div class="form-control-icon">
+                        <i class="bi bi-person-badge"></i>
+                    </div>
+                    <!-- Campo oculto para asegurar el envío del rol al servidor en el submit -->
+                    <input type="hidden" name="role" value="Alumno">
+                </div>
+                
                 <button class="btn btn-primary btn-block btn-lg shadow-lg mt-5" type="submit">
                 {{ __('Registrarse') }}
                 </button>

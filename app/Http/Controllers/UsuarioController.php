@@ -90,7 +90,7 @@ class UsuarioController extends Controller
 
     public function edit($id)
     {
-        $usuario = User::findOrFail($id);
+        $usuario = User::with(['student', 'teacher'])->findOrFail($id);
         return view('admin.usuarios.edit', compact('usuario'));
     }
 
@@ -101,6 +101,9 @@ class UsuarioController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,'.$usuario->id,
+            'document' => 'required_if:role,Alumno|nullable|string|max:20',
+            'birth_date' => 'required_if:role,Alumno|nullable|date',
+            'specialties' => 'required_if:role,Profesor|nullable|array',
             'role' => 'required|in:Admin,Profesor,Alumno',
         ]);
         $usuario->update([
@@ -108,19 +111,58 @@ class UsuarioController extends Controller
             'email' => $request->email,
             'role' => $request->role,
         ]);
-        $usuario->syncRoles([$request->role]);
-        $this->logActivity('actualizó', 'Usuario', $usuario->name);
 
-        return redirect()->route('admin.usuarios.index')->with('success', 'Usuario actualizado exitosamente.');
+        if ($request->role === 'Alumno') {
+        $usuario->student()->updateOrCreate(
+            ['user_id' => $usuario->id],
+            [
+                'document'   => $request->document,
+                'birth_date' => $request->birth_date,
+            ]
+        );
+        // Si tenía registro de profesor previa/e, opcionalmente se limpia
+        if ($usuario->teacher) { $usuario->teacher()->delete(); }
+
+    } elseif ($request->role === 'Profesor') {
+        $usuario->teacher()->updateOrCreate(
+            ['user_id' => $usuario->id],
+            [
+                'specialties' => $request->specialties, // Si es un campo JSON en BD o relación pivot
+            ]
+        );
+        if ($usuario->student) { $usuario->student()->delete(); }
+
+    } else {
+        // Si es Admin, elimina datos específicos de los otros roles si existían
+        if ($usuario->student) { $usuario->student()->delete(); }
+        if ($usuario->teacher) { $usuario->teacher()->delete(); }
     }
 
-    // Método para eliminar un usuario específico
-    public function destroy(string $id)
-    {
-        $usuario = User::findOrFail($id);
-        $this->logActivity('eliminó', 'Usuario', $usuario->name);
-        $usuario->delete();
+    $usuario->syncRoles([$request->role]);
+    $this->logActivity('actualizó', 'Usuario', $usuario->name);
 
-        return redirect()->route('admin.usuarios.index')->with('success', 'Usuario eliminado exitosamente.');
+    return redirect()->route('admin.usuarios.index')->with('success', 'Usuario actualizado exitosamente.');
+    }
+    public function destroy($id)
+{
+    $usuario = User::findOrFail($id);
+
+    // Si tiene datos asociados en tablas secundarias, puedes eliminarlos antes o dejar que la foreign key en cascada lo haga
+    if ($usuario->student) {
+        $usuario->student()->delete();
+    }
+
+    if ($usuario->teacher) {
+        $usuario->teacher()->delete();
+    }
+
+    // Registrar la actividad (si utilizas un logger interno)
+    if (method_exists($this, 'logActivity')) {
+        $this->logActivity('eliminó', 'Usuario', $usuario->name);
+    }
+
+    $usuario->delete();
+
+    return redirect()->route('admin.usuarios.index')->with('success', 'Usuario eliminado exitosamente.');
     }
 }
