@@ -15,13 +15,13 @@ class MateriaController extends Controller
 
     public function index()
     {
-        $materias = Materia::all();
+        $materias = Materia::with(['teachers'])->get();
         return view('admin.materias.index', compact('materias'));
     }
 
     public function create()
     {
-        // Buscamos usuarios que tengan asignado el nombre del rol tal cual sale en la BD
+        // Buscamos usuarios que tengan asignado el rol correspondiente
         $profesores = Teacher::with('user')->get();
         $estudiantes = Student::with('user')->get();
 
@@ -32,24 +32,30 @@ class MateriaController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nombre' => ['required|string|max:255'],
-            'descripcion' => ['required|string'],
-            'teacher_id' => ['required','exists:teachers,id'],
-            'estudiantes' => ['nullable|array'],
+            'nombre' => ['required', 'string', 'max:255'],
+            'curso' => ['required', 'string', 'max:255'],
+            'descripcion' => ['required', 'string'],
+            'horario' => ['nullable', 'string', 'max:255'],
+            'teacher_id' => ['required', 'exists:teachers,id'],
+            'estudiantes' => ['nullable', 'array'],
             'estudiantes.*' => ['exists:students,id'],
         ]);
 
+        // Creamos la materia SIN el horario (porque ya pertenece a la tabla materias y no lleva esa columna)
         $materia = Materia::create([
             'nombre' => $request->input('nombre'),
+            'curso' => $request->input('curso'),
             'descripcion' => $request->input('descripcion'),
         ]);
 
-        // Asignamos el profesor a la materia
+        // Asignamos el profesor y GUARDAMOS EL HORARIO en la tabla pivote (materia_teacher)
         if ($request->has('teacher_id')) {
-            $materia->teachers()->attach($request->input('teacher_id'));
+            $materia->teachers()->attach($request->input('teacher_id'), [
+                'horario' => $request->input('horario')
+            ]);
         }
 
-        // Asignamos los estudiantes con su respective teacher_id en la tabla pivote
+        // Asignamos los estudiantes con su respectivo teacher_id en la tabla pivote
         if ($request->filled('estudiantes')) {
             $teacherId = $request->input('teacher_id');
             $estudiantesData = [];
@@ -91,19 +97,28 @@ class MateriaController extends Controller
     public function update(Request $request, Materia $materia)
     {
         $request->validate([
-            'nombre' => ['required|string|max:255'],
-            'descripcion' => ['required|string'],
-            'teacher_id' => ['required','exists:teachers,id'], // Corregido: antes decía 'users,id'
-            'estudiantes' => ['nullable|array'],
+            'nombre' => ['required', 'string', 'max:255'],
+            'curso' => ['required', 'string', 'max:255'],
+            'descripcion' => ['required', 'string'],
+            'horario' => ['required', 'string', 'max:255'],
+            'teacher_id' => ['required', 'exists:teachers,id'],
+            'estudiantes' => ['nullable', 'array'],
             'estudiantes.*' => ['exists:students,id'],
         ]);
 
+        // Actualizamos los datos principales de la materia (sin el horario)
         $materia->update([
             'nombre' => $request->input('nombre'),
+            'curso' => $request->input('curso'),
             'descripcion' => $request->input('descripcion'),
         ]);
 
-        $materia->teachers()->sync($request->input('teacher_id'));
+        // Actualizamos el profesor y asignamos el horario en la tabla pivote
+        $materia->teachers()->sync([
+            $request->input('teacher_id') => [
+                'horario' => $request->input('horario')
+            ]
+        ]);
 
         if ($request->filled('estudiantes')) {
             $teacherId = $request->input('teacher_id');

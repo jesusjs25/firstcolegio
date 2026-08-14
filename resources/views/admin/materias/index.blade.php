@@ -17,9 +17,11 @@
 				<thead>
 					<tr>
 						<th>Nombre</th>
+						<th>Curso</th>
 						<th>Descripción</th>
 						<th>Profesor</th>
 						<th>Estudiantes</th>
+						<th>Horario</th>
 						<th>Acciones</th>
 					</tr>
 				</thead>
@@ -27,6 +29,7 @@
 					@foreach($materias as $materia)
 						<tr>
 							<td>{{ $materia->nombre }}</td>
+							<td>{{ $materia->curso }}</td>
 							<td>{{ $materia->descripcion }}</td>
 							<td>
 								@if($materia->teachers && $materia->teachers->isNotEmpty())
@@ -36,6 +39,13 @@
 								@endif
 							</td>
 							<td>{{ $materia->students->count() }}</td>
+							<td>
+								@if($materia->teachers && $materia->teachers->isNotEmpty())
+									{{ $materia->teachers->first()->pivot->horario ?? 'Sin horario asignado' }}
+								@else
+									Sin horario asignado
+								@endif
+							</td>
 							<td>
 								<a href="{{ route('admin.materias.edit', $materia) }}" class="btn btn-sm btn-warning">Editar</a>
 								<form action="{{ route('admin.materias.destroy', $materia) }}" method="POST" style="display:inline-block;">

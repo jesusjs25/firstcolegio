@@ -14,6 +14,7 @@ class Materia extends Model
     protected $fillable = [
         'nombre',
         'descripcion',
+        'curso',
     ];
     
         public function students()
@@ -29,7 +30,9 @@ class Materia extends Model
         }
         public function teachers() {
             // Es el espejo del anterior
-            return $this->belongsToMany(Teacher::class, 'materia_teacher', 'materia_id', 'teacher_id');
+            return $this->belongsToMany(Teacher::class, 'materia_teacher', 'materia_id', 'teacher_id')
+                        ->withPivot('horario')
+                        ->withTimestamps();
         }
         public function notas() {
             return $this->hasMany(Nota::class);

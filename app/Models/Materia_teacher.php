@@ -15,6 +15,7 @@ class Materia_teacher extends Model
     protected $fillable = [
         'teacher_id',
         'materia_id',
+        'horario',
     ];
 
     public function teacher()
