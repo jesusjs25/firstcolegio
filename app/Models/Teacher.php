@@ -25,7 +25,9 @@ class Teacher extends Model
     public function materias() {
         // Laravel buscará la tabla 'materia_teacher'
         // Los campos son 'teacher_id' y 'materia_id'
-        return $this->belongsToMany(Materia::class, 'materia_teacher', 'teacher_id', 'materia_id');
+        return $this->belongsToMany(Materia::class, 'materia_teacher', 'teacher_id', 'materia_id')
+        ->withPivot('horario'); // Si quieres acceder al campo 'horario' en la tabla pivote
+        
     }
     public function notas()
     {

@@ -52,6 +52,12 @@
                                                     @endforelse
                                                 </tbody>
                                             </table>
+                                            <div class="mt-3 pe-3">
+                                                <div style="font-weight: bold; font-size: 17px; color: #fff;">
+                                                    <div class="badge bg-success mb-1">TOTAL APROBADOS: {{ $totalAprobados }}</div><br>
+                                                    <div class="badge bg-danger">TOTAL REPROBADOS: {{ $totalReprobados }}</div>
+                                                </div>
+                                            </div>
                                         </div>
                                     @else
                                         <div class="text-center">

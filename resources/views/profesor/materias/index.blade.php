@@ -36,7 +36,9 @@
                                                 <thead class="thead-dark">
                                                     <tr>
                                                         <th>MATERIA</th>
+                                                        <th>CURSO</th>
                                                         <th>DESCRIPCIÓN</th>
+                                                        <th>HORARIO</th>
                                                         <th>TOTAL ESTUDIANTES</th>
                                                         <th>ACCION</th>
                                                     </tr>
@@ -44,7 +46,9 @@
                                                 <tbody>
                                                     <tr>
                                                         <td class="text-bold-500">{{ $materia->nombre }}</td>
+                                                        <td>{{ $materia->curso ?? 'Sin curso asignado' }}</td>
                                                         <td>{{ $materia->descripcion ?? 'Sin descripción disponible' }}</td>
+                                                        <td>{{ $materia->pivot->horario ?? 'Sin horario asignado' }}</td>
                                                         <td>{{ $materia->students_count }}</td>
                                                         <td>
                                                             <a href="{{ route('alumnos.index', ['id' => $materia->id]) }}" class="btn btn-sm btn-primary">

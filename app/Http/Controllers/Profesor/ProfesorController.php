@@ -30,7 +30,9 @@ class ProfesorController extends Controller
         $teacher = Auth::user()->teacher;
 
         // Materias para tu acordeón o listado
-        $materias = $teacher->materias()->withCount('students')->get();
+        $materias = $teacher->materias()
+                            ->withCount('students')
+                            ->get();
 
         return view('profesor.materias.index', compact('materias'));
     }
@@ -66,6 +68,15 @@ class ProfesorController extends Controller
             $student->pivot->promedio = $promedioFinal;
         }
 
-        return view('profesor.alumnos.index', compact('materias', 'materiaSeleccionada'));
+        //Calcular aprobados y reprobados para la materia seleccionada
+        $totalAprobados = $materiaSeleccionada->students->filter(function ($student) {
+            return ($student->pivot->promedio ?? 0) >= 10;
+        })->count();
+
+        $totalReprobados = $materiaSeleccionada->students->filter(function ($student) {
+            return ($student->pivot->promedio ?? 0) < 10;
+        })->count();
+
+        return view('profesor.alumnos.index', compact('materias', 'materiaSeleccionada', 'totalAprobados', 'totalReprobados'));
     }
 }
